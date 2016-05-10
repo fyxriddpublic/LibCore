@@ -1,9 +1,11 @@
 package com.fyxridd.lib.core.api;
 
+import com.fyxridd.lib.core.MD5;
 import com.fyxridd.lib.core.api.hashList.HashList;
 import com.fyxridd.lib.core.api.inter.LastType;
 import com.fyxridd.lib.core.api.inter.StringMatcher;
 import com.fyxridd.lib.core.matcher.StringMatcherImpl;
+
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.*;

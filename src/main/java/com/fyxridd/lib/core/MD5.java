@@ -1,4 +1,4 @@
-package com.fyxridd.lib.core.api;
+package com.fyxridd.lib.core;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

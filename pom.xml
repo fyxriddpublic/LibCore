@@ -112,6 +112,12 @@
     </build>
 
     <dependencies>
+        <!--json-->
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20140107</version>
+        </dependency>
         <!--expressionJ-->
         <dependency>
             <groupId>com.fyxridd.lib</groupId>
@@ -125,6 +131,19 @@
             <version>3.5</version>
         </dependency>
 
+		<!-- mybatis -->
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis</artifactId>
+			<version>3.2.7</version>
+		</dependency>
+		<!-- mysql -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.38</version>
+		</dependency>
+		
         <!--前置其它插件-->
         <!--spigot-->
         <dependency>
