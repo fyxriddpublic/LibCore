@@ -231,10 +231,10 @@ public class PlayerApi {
      * @param offset 最大偏移
      * @param longDistance 是否长距离
      */
-    public static void showSpec(Player p, Entity entity, int range, Location loc, String type, int count, float offset, boolean longDistance) {
+    public static void showSpec(Player p, Entity entity, int range, Location loc, EnumWrappers.Particle type, int count, float offset, boolean longDistance) {
         WrapperPlayServerWorldParticles particles = new WrapperPlayServerWorldParticles();
         particles.setNumberOfParticles(count);
-        particles.setParticleType(EnumWrappers.Particle.valueOf(type));
+        particles.setParticleType(type);
         particles.setLongDistance(longDistance);
         particles.setX((float) loc.getX());
         particles.setY((float) loc.getY());

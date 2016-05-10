@@ -1,60 +1,28 @@
 package com.fyxridd.lib.core.api;
 
-import com.comphenix.packetwrapper.WrapperPlayServerBlockChange;
-import com.comphenix.protocol.ProtocolLibrary;
-import com.comphenix.protocol.ProtocolManager;
-import com.comphenix.protocol.events.PacketContainer;
-import com.comphenix.protocol.wrappers.BlockPosition;
-import com.comphenix.protocol.wrappers.WrappedBlockData;
 import com.fyxridd.lib.core.api.hashList.HashList;
-import org.bukkit.*;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
-import org.bukkit.configuration.InvalidConfigurationException;
+import com.fyxridd.lib.core.api.inter.LastType;
+import com.fyxridd.lib.core.api.inter.StringMatcher;
+import com.fyxridd.lib.core.matcher.StringMatcherImpl;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.potion.PotionEffectType;
 
 import java.io.*;
-import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.Charset;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.jar.JarEntry;
-import java.util.jar.JarInputStream;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class UtilApi {
-    //服务端所在的文件夹路径
-    public static String serverPath;
-    //插件文件夹路径
-    public static String pluginPath;
-    //服务端版本
-    public static String serverVer;
+    private static Random random = new Random();
 
     public static final long SECONDS = 1000;
     public static final long MINUTE = SECONDS*60;
     public static final long HOUR = MINUTE*60;
     public static final long DAY = HOUR*24;
-    public static final ItemMeta EmptyIm = new ItemStack(1).getItemMeta();
-    private static final String VERSION_PATTERN = "\\(MC: [0-9.]{5}\\)";
-    private static UUID fixDamageUid = UUID.fromString("0dd52480-7e43-41e2-8a43-e0af83c614ec");
-    private static UUID itemUid = UUID.fromString("24ca113c-6c2e-49e8-b41a-535156a6febc");
 
-    private static final String PatternStr = "&[0123456789abcdeflmnor]";
-    private static Pattern pattern = Pattern.compile(PatternStr);
-
-    private static ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
-
-    //有延时更新的玩家列表
-    private static HashSet<String> updateInvs = new HashSet<>();
+    private static Pattern ColorPattern = Pattern.compile("&[0123456789abcdeflmnor]");
 
     /**
      * 获取列表元素总数
@@ -187,7 +155,7 @@ public class UtilApi {
         if (c == null || c.isEmpty()) return null;
 
         int index = 0;
-        int sel = Random.nextInt(c.size());
+        int sel = MathApi.nextInt(0, c.size()-1);
         for (Object o : c) {
             if (index++ == sel) return o;
         }
@@ -293,9 +261,9 @@ public class UtilApi {
      * @param data 字符串
      * @return 匹配信息,异常返回null
      */
-    public static com.fyxridd.lib.core.api.inter.Matcher loadMatcher(String data) {
+    public static StringMatcher loadMatcher(String data) {
         try {
-            return new MatcherImpl(data);
+            return new StringMatcherImpl(data);
         } catch (Exception e) {
             return null;
         }
@@ -332,7 +300,7 @@ public class UtilApi {
     public static String convert(String msg){
         if (msg == null) return null;
 
-        Matcher m = pattern.matcher(msg);
+        Matcher m = ColorPattern.matcher(msg);
         StringBuffer sb = new StringBuffer();
         while (m.find()) m.appendReplacement(sb, m.group().replace("&", "\u00A7"));
         m.appendTail(sb);
@@ -615,7 +583,7 @@ public class UtilApi {
         double yaw = Math.toRadians(-originYaw - 90.0F);
         double pitch = Math.toRadians(-originPitch);
         double[] spread = { 1.0D, 1.0D, 1.0D };
-        for (int t = 0; t < 3; t++) spread[t] = ((UtilApi.Random.nextDouble() - UtilApi.Random.nextDouble()) * accuracy * 0.1D);
+        for (int t = 0; t < 3; t++) spread[t] = ((random.nextDouble() - random.nextDouble()) * accuracy * 0.1D);
         double x = Math.cos(pitch) * Math.cos(yaw) + spread[0];
         double y = Math.sin(pitch) + spread[1];
         double z = -Math.sin(yaw) * Math.cos(pitch) + spread[2];

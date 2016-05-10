@@ -12,7 +12,6 @@ import com.fyxridd.lib.core.api.event.FixDamageEvent;
 import com.fyxridd.lib.core.api.hashList.HashList;
 import com.fyxridd.lib.core.api.nbt.AttributeStorage;
 import com.fyxridd.lib.core.api.nbt.Attributes;
-import org.apache.commons.lang.Validate;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -47,22 +46,9 @@ public class CoreApi {
     //服务端版本
     public static String serverVer;
 
-    public static final long SECONDS = 1000;
-    public static final long MINUTE = SECONDS*60;
-    public static final long HOUR = MINUTE*60;
-    public static final long DAY = HOUR*24;
-    public static final ItemMeta EmptyIm = new ItemStack(1).getItemMeta();
     private static final String VERSION_PATTERN = "\\(MC: [0-9.]{5}\\)";
-    private static UUID fixDamageUid = UUID.fromString("0dd52480-7e43-41e2-8a43-e0af83c614ec");
-    private static UUID itemUid = UUID.fromString("24ca113c-6c2e-49e8-b41a-535156a6febc");
-
-    private static final String PatternStr = "&[0123456789abcdeflmnor]";
-    private static Pattern pattern = Pattern.compile(PatternStr);
 
     private static ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
-
-    //有延时更新的玩家列表
-    private static HashSet<String> updateInvs = new HashSet<>();
 
     /**
      * 在指定的位置播放一下声音(升级时的音效)
@@ -79,7 +65,7 @@ public class CoreApi {
      * @param loc 显示效果的位置
      */
     public static void tipEffect(Entity e, Location loc) {
-        showSpec(null, e, 32, loc, "VILLAGER_HAPPY", 22, 0.9f, true);
+        PlayerApi.showSpec(null, e, 32, loc, EnumWrappers.Particle.VILLAGER_HAPPY, 22, 0.9f, true);
     }
 
     /**

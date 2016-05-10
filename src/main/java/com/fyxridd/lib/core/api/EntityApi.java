@@ -144,10 +144,10 @@ public class EntityApi {
      */
     public static void ejectRandom(Entity entity) {
         org.bukkit.util.Vector v = new org.bukkit.util.Vector(1.0, 0.3, 1.0);
-        double d = Random.nextInt(11)-5;
+        double d = MathApi.nextInt(0, 10)-5;
         if (d == 0) v.setX(0);
         else v.setX(v.getX()/d);
-        d = Random.nextInt(11)-5;
+        d = MathApi.nextInt(0, 10)-5;
         if (d == 0) v.setZ(0);
         else v.setZ(v.getZ()/d);
         double length = v.length();

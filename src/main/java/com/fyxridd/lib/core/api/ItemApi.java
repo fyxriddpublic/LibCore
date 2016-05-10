@@ -128,12 +128,12 @@ public class ItemApi {
             //解析
             Attributes.Attribute a = null;
             Attributes attributes = new Attributes(is);
-            if (attributes.size() > 0) {
-                for (Attributes.Attribute attribute:attributes.values()) {
-                    if (attribute.getUUID().equals(fixDamageUid)) {
-                        a = attribute;
-                        break;
-                    }
+            Iterator<Attributes.Attribute> it = attributes.values();
+            while (it.hasNext()) {
+                Attributes.Attribute attribute = it.next();
+                if (attribute.getUUID().equals(fixDamageUid)) {
+                    a = attribute;
+                    break;
                 }
             }
 

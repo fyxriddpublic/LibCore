@@ -2,6 +2,7 @@ package com.fyxridd.lib.core.api.nbt;
 
 import org.bukkit.inventory.ItemStack;
 
+import java.util.Iterator;
 import java.util.UUID;
 
 /**
@@ -12,10 +13,8 @@ public class AttributeStorage {
 	private final UUID uniqueKey;
 
 	private AttributeStorage(ItemStack target, UUID uniqueKey) {
-		this.target = Preconditions.checkNotNull(target,
-				"target cannot be NULL");
-		this.uniqueKey = Preconditions.checkNotNull(uniqueKey,
-				"uniqueKey cannot be NULL");
+		this.target = target;
+		this.uniqueKey = uniqueKey;
 	}
 
 	/**
@@ -93,11 +92,11 @@ public class AttributeStorage {
 	 * @return The first attribute associated with this UUID, or NULL.
 	 */
 	private Attributes.Attribute getAttribute(Attributes attributes, UUID id) {
-		for (Attributes.Attribute attribute : attributes.values()) {
-			if (Objects.equal(attribute.getUUID(), id)) {
-				return attribute;
-			}
-		}
+        Iterator<Attributes.Attribute> it = attributes.values();
+        while (it.hasNext()) {
+            Attributes.Attribute attribute = it.next();
+            if (attribute.getUUID().equals(id)) return attribute;
+        }
 		return null;
 	}
 }

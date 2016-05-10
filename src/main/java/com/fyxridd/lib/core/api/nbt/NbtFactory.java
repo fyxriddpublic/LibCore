@@ -5,20 +5,22 @@ import org.bukkit.Material;
 import org.bukkit.Server;
 import org.bukkit.inventory.ItemStack;
 
-import java.io.*;
+import java.io.DataInput;
+import java.io.DataOutput;
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.*;
-import java.util.concurrent.ConcurrentMap;
-import java.util.zip.GZIPInputStream;
-import java.util.zip.GZIPOutputStream;
 
 public class NbtFactory {
     // Convert between NBT id and the equivalent class in java
-    private static final BiMap<Integer, Class<?>> NBT_CLASS = HashBiMap.create();
-    private static final BiMap<Integer, NbtType> NBT_ENUM = HashBiMap.create();
+    private static final Map<Integer, Class<?>> NBT_CLASS = new HashMap<>();
+    private static final Map<Class<?>, Integer> NBT_CLASS_ = new HashMap<>();
+    private static final Map<Integer, NbtType> NBT_ENUM = new HashMap<>();
+    private static final Map<NbtType, Integer> NBT_ENUM_ = new HashMap<>();
     
     /**
 * Whether or not to enable stream compression.
@@ -49,7 +51,9 @@ public class NbtFactory {
         private NbtType(int id, Class<?> type) {
             this.id = id;
             NBT_CLASS.put(id, type);
+            NBT_CLASS_.put(type, id);
             NBT_ENUM.put(id, this);
+            NBT_ENUM_.put(this, id);
         }
         
         private String getFieldName() {
@@ -170,32 +174,30 @@ public class NbtFactory {
 * @param value - the new value of this entry.
 * @return This compound, for chaining.
 */
-        public NbtCompound putPath(String path, Object value) {
-            List<String> entries = getPathElements(path);
-            Map<String, Object> map = getMap(entries.subList(0, entries.size() - 1), true);
-
-            map.put(entries.get(entries.size() - 1), value);
-            return this;
-        }
+//        public NbtCompound putPath(String path, Object value) {
+//            List<String> entries = getPathElements(path);
+//            Map<String, Object> map = getMap(entries.subList(0, entries.size() - 1), true);
+//
+//            map.put(entries.get(entries.size() - 1), value);
+//            return this;
+//        }
 
         /**
 * Retrieve the value of a given entry in the tree.
 * <p>
 * Every element of the path (except the end) are assumed to be compounds. The
 * retrieval operation will be cancelled if any of them are missing.
-* @param path - path to the entry.
-* @return The value, or NULL if not found.
 */
         @SuppressWarnings("unchecked")
-        public <T> T getPath(String path) {
-            List<String> entries = getPathElements(path);
-            NbtCompound map = getMap(entries.subList(0, entries.size() - 1), false);
-
-            if (map != null) {
-                return (T) map.get(entries.get(entries.size() - 1));
-            }
-            return null;
-        }
+//        public <T> T getPath(String path) {
+//            List<String> entries = getPathElements(path);
+//            NbtCompound map = getMap(entries.subList(0, entries.size() - 1), false);
+//
+//            if (map != null) {
+//                return (T) map.get(entries.get(entries.size() - 1));
+//            }
+//            return null;
+//        }
 
         /**
 * Save the content of a NBT compound to a stream.
@@ -205,9 +207,9 @@ public class NbtFactory {
 * @param option - whether or not to compress the output.
 * @throws IOException If anything went wrong.
 */
-        public void saveTo(OutputSupplier<? extends OutputStream> stream, StreamOptions option) throws IOException {
-            saveStream(this, stream, option);
-        }
+//        public void saveTo(OutputSupplier<? extends OutputStream> stream, StreamOptions option) throws IOException {
+//            saveStream(this, stream, option);
+//        }
 
 		/**
 * Retrieve a map from a given path.
@@ -236,9 +238,9 @@ public class NbtFactory {
 * @param path - the path to split.
 * @return The elements.
 */
-        private List<String> getPathElements(String path) {
-            return Lists.newArrayList(Splitter.on(".").omitEmptyStrings().split(path));
-        }
+//        private List<String> getPathElements(String path) {
+//            return Lists.newArrayList(Splitter.on(".").omitEmptyStrings().split(path));
+//        }
     }
 
     /**
@@ -395,34 +397,33 @@ String name = server != null ? server.getClass().getPackage().getName() : null;
     /**
 * Load the content of a file from a stream.
 * <p>
-* Use {@link com.google.common.io.Files#newInputStreamSupplier(File)} to provide a stream from a file.
 * @param stream - the stream supplier.
 * @param option - whether or not to decompress the input stream.
 * @return The decoded NBT compound.
 * @throws IOException If anything went wrong.
 */
-    public static NbtCompound fromStream(InputSupplier<? extends InputStream> stream, StreamOptions option) throws IOException {
-        InputStream input = null;
-        DataInputStream data = null;
-        boolean suppress = true;
-
-        try {
-            input = stream.getInput();
-            data = new DataInputStream(new BufferedInputStream(
-                option == StreamOptions.GZIP_COMPRESSION ? new GZIPInputStream(input) : input
-            ));
-
-            NbtCompound result = fromCompound(get().LOAD_COMPOUND.loadNbt(data));
-            suppress = false;
-            return result;
-
-        } finally {
-            if (data != null)
-                Closeables.close(data, suppress);
-            else if (input != null)
-                Closeables.close(input, suppress);
-        }
-    }
+//    public static NbtCompound fromStream(InputSupplier<? extends InputStream> stream, StreamOptions option) throws IOException {
+//        InputStream input = null;
+//        DataInputStream data = null;
+//        boolean suppress = true;
+//
+//        try {
+//            input = stream.getInput();
+//            data = new DataInputStream(new BufferedInputStream(
+//                option == StreamOptions.GZIP_COMPRESSION ? new GZIPInputStream(input) : input
+//            ));
+//
+//            NbtCompound result = fromCompound(get().LOAD_COMPOUND.loadNbt(data));
+//            suppress = false;
+//            return result;
+//
+//        } finally {
+//            if (data != null)
+//                Closeables.close(data, suppress);
+//            else if (input != null)
+//                Closeables.close(input, suppress);
+//        }
+//    }
 
     /**
 * Save the content of a NBT compound to a stream.
@@ -433,27 +434,27 @@ String name = server != null ? server.getClass().getPackage().getName() : null;
 * @param option - whether or not to compress the output.
 * @throws IOException If anything went wrong.
 */
-    public static void saveStream(NbtCompound source, OutputSupplier<? extends OutputStream> stream, StreamOptions option) throws IOException {
-        OutputStream output = null;
-        DataOutputStream data = null;
-        boolean suppress = true;
-
-        try {
-            output = stream.getOutput();
-            data = new DataOutputStream(
-                option == StreamOptions.GZIP_COMPRESSION ? new GZIPOutputStream(output) : output
-            );
-
-            invokeMethod(get().SAVE_COMPOUND, null, source.getHandle(), data);
-            suppress = false;
-
-        } finally {
-            if (data != null)
-                Closeables.close(data, suppress);
-            else if (output != null)
-                Closeables.close(output, suppress);
-        }
-    }
+//    public static void saveStream(NbtCompound source, OutputSupplier<? extends OutputStream> stream, StreamOptions option) throws IOException {
+//        OutputStream output = null;
+//        DataOutputStream data = null;
+//        boolean suppress = true;
+//
+//        try {
+//            output = stream.getOutput();
+//            data = new DataOutputStream(
+//                option == StreamOptions.GZIP_COMPRESSION ? new GZIPOutputStream(output) : output
+//            );
+//
+//            invokeMethod(get().SAVE_COMPOUND, null, source.getHandle(), data);
+//            suppress = false;
+//
+//        } finally {
+//            if (data != null)
+//                Closeables.close(data, suppress);
+//            else if (output != null)
+//                Closeables.close(output, suppress);
+//        }
+//    }
 
     /**
 * Construct a new NBT wrapper from a compound.
@@ -622,16 +623,50 @@ String name = server != null ? server.getClass().getPackage().getName() : null;
         int type = (Byte) invokeMethod(NBT_GET_TYPE, nms);
         return NBT_ENUM.get(type);
     }
-    
+
+    /** A map from wrapper types to their corresponding primitive types. */
+    private static final Map<Class<?>, Class<?>> WRAPPER_TO_PRIMITIVE_TYPE;
+
+    static {
+        Map<Class<?>, Class<?>> primToWrap = new HashMap<Class<?>, Class<?>>(16);
+        Map<Class<?>, Class<?>> wrapToPrim = new HashMap<Class<?>, Class<?>>(16);
+
+        add(primToWrap, wrapToPrim, boolean.class, Boolean.class);
+        add(primToWrap, wrapToPrim, byte.class, Byte.class);
+        add(primToWrap, wrapToPrim, char.class, Character.class);
+        add(primToWrap, wrapToPrim, double.class, Double.class);
+        add(primToWrap, wrapToPrim, float.class, Float.class);
+        add(primToWrap, wrapToPrim, int.class, Integer.class);
+        add(primToWrap, wrapToPrim, long.class, Long.class);
+        add(primToWrap, wrapToPrim, short.class, Short.class);
+        add(primToWrap, wrapToPrim, void.class, Void.class);
+
+        WRAPPER_TO_PRIMITIVE_TYPE = Collections.unmodifiableMap(wrapToPrim);
+    }
+
+    private static void add(
+            Map<Class<?>, Class<?>> forward,
+            Map<Class<?>, Class<?>> backward,
+            Class<?> key,
+            Class<?> value) {
+        forward.put(key, value);
+        backward.put(value, key);
+    }
+
+    public static <T> Class<T> unwrap(Class<T> type) {
+        // cast is safe: long.class and Long.class are both of type Class<Long>
+        @SuppressWarnings("unchecked")
+        Class<T> unwrapped = (Class<T>) WRAPPER_TO_PRIMITIVE_TYPE.get(type);
+        return (unwrapped == null) ? type : unwrapped;
+    }
+
     /**
 * Retrieve the nearest NBT type for a given primitive type.
 * @param primitive - the primitive type.
 * @return The corresponding type.
      */
     private NbtType getPrimitiveType(Object primitive) {
-        NbtType type = NBT_ENUM.get(NBT_CLASS.inverse().get(
-            Primitives.unwrap(primitive.getClass())
-        ));
+        NbtType type = NBT_ENUM.get(NBT_CLASS_.get(unwrap(primitive.getClass())));
         
         // Display the illegal value at least
         if (type == null)
@@ -730,7 +765,7 @@ String name = server != null ? server.getClass().getPackage().getName() : null;
 */
     private final class CachedNativeWrapper {
         // Don't recreate wrapper objects
-        private final ConcurrentMap<Object, Object> cache = new MapMaker().weakKeys().makeMap();
+        private final Map<Object, Object> cache = new WeakHashMap<>(); //MapMaker().weakKeys().makeMap();
         
         public Object wrap(Object value) {
             Object current = cache.get(value);

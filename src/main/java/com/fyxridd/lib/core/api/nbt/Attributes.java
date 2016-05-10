@@ -5,7 +5,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.*;
 
 public class Attributes {
-    public static enum Operation {
+    public enum Operation {
         ADD_NUMBER(0),
         MULTIPLY_PERCENTAGE(1),
         ADD_PERCENTAGE(2);
@@ -122,7 +122,6 @@ public class Attributes {
         }
 
         public void setOperation(Operation operation) {
-            Preconditions.checkNotNull(operation, "operation cannot be NULL.");
             data.put("Operation", operation.getId());
         }
 
@@ -131,7 +130,6 @@ public class Attributes {
         }
 
         public void setAttributeType(AttributeType type) {
-            Preconditions.checkNotNull(type, "type cannot be NULL.");
             data.put("AttributeName", type.getMinecraftId());
         }
 
@@ -140,7 +138,6 @@ public class Attributes {
         }
 
         public void setName(String name) {
-            Preconditions.checkNotNull(name, "name cannot be NULL.");
             data.put("Name", name);
         }
 
@@ -149,7 +146,6 @@ public class Attributes {
         }
 
         public void setUUID(UUID id) {
-            Preconditions.checkNotNull("id", "id cannot be NULL.");
             data.put("UUIDLeast", id.getLeastSignificantBits());
             data.put("UUIDMost", id.getMostSignificantBits());
         }
@@ -230,6 +226,8 @@ public class Attributes {
     public ItemStack stack;
     //可为null
     private NbtFactory.NbtList attributes;
+    //与attributes同步
+    private Set<Attribute> attributesSet;
 
     public Attributes(ItemStack stack) {
         // Create a CraftItemStack (under the hood)
@@ -261,9 +259,10 @@ public class Attributes {
      * @param attribute - the new attribute.
      */
     public void add(Attribute attribute) {
-        Preconditions.checkNotNull(attribute.getName(), "must specify an attribute name.");
+        if (attribute.getName() == null) return;
         loadAttributes(true);
         attributes.add(attribute.data);
+        attributesSet.add(attribute);
     }
 
     /**
@@ -279,8 +278,8 @@ public class Attributes {
             return false;
         UUID uuid = attribute.getUUID();
 
-        for (Iterator<Attribute> it = values().iterator(); it.hasNext(); ) {
-            if (Objects.equal(it.next().getUUID(), uuid)) {
+        for (Iterator<Attribute> it = values(); it.hasNext(); ) {
+            if (it.next().getUUID().equals(uuid)) {
                 it.remove();
 
                 // Last removed attribute?
@@ -313,23 +312,11 @@ public class Attributes {
     }
 
     // We can't make Attributes itself iterable without splitting it up into separate classes
-    public Iterable<Attribute> values() {
-        return new Iterable<Attribute>() {
-            @Override
-            public Iterator<Attribute> iterator() {
-                // Handle the empty case
-                if (size() == 0)
-                    return Collections.<Attribute>emptyList().iterator();
+    public Iterator<Attribute> values() {
 
-                return Iterators.transform(attributes.iterator(),
-                        new Function<Object, Attribute>() {
-                            @Override
-                            public Attribute apply(@Nullable Object element) {
-                                return new Attribute((NbtFactory.NbtCompound) element);
-                            }
-                        });
-            }
-        };
+        List<Attribute> list = new ArrayList<>();
+        for (Object o:attributes) list.add(new Attribute((NbtFactory.NbtCompound) o));
+        return list.iterator();
     }
 
     /**
@@ -340,7 +327,11 @@ public class Attributes {
     private void loadAttributes(boolean createIfMissing) {
         if (this.attributes == null) {
             NbtFactory.NbtCompound nbt = NbtFactory.fromItemTag(this.stack, createIfMissing);
-            if (nbt != null) this.attributes = nbt.getList("AttributeModifiers", createIfMissing);
+            if (nbt != null) {
+                this.attributes = nbt.getList("AttributeModifiers", createIfMissing);
+                this.attributesSet = new HashSet<>();
+                for (Object o:attributes) this.attributesSet.add(new Attribute((NbtFactory.NbtCompound)o));
+            }
         }
     }
 
@@ -351,5 +342,6 @@ public class Attributes {
         NbtFactory.NbtCompound nbt = NbtFactory.fromItemTag(this.stack, false);
         if (nbt != null) nbt.remove("AttributeModifiers");
         this.attributes = null;
+        this.attributesSet = null;
     }
 }
