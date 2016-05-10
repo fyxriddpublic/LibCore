@@ -1,0 +1,16 @@
+﻿name: LibCore
+main: com.fyxridd.lib.core.api.CorePlugin
+version: 0.1.0
+load: startup
+depend: [Vault, ProtocolLib, PacketWrapper]
+softdepend:
+commands:
+  f:
+    description: FuncManager
+    usage: /<command> ?
+  s:
+    description: InputManager
+    usage: /<command> ?
+  stop:
+    description: none
+    usage: /<command> ?
