@@ -2,15 +2,12 @@ package com.fyxridd.lib.core.api;
 
 import com.fyxridd.lib.core.api.fancymessage.FancyMessage;
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.configuration.MemorySection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.json.JSONException;
 import org.json.JSONStringer;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -34,26 +31,6 @@ public class MessageApi {
             throw new RuntimeException("invalid tooltip");
         }
         return json.toString();
-    }
-    /**
-     * 获取悬浮提示信息(mc能识别处理的)
-     * @param hoverActionString 提示信息字符串,不为null
-     * @return 提示信息
-     */
-    public static String getHoverActionData(String hoverActionString) {
-        String[] s3 = hoverActionString.split("\n");
-        ItemStack is = new ItemStack(Material.STONE);
-        ItemMeta im = is.getItemMeta();
-        im.setDisplayName(s3[0]);
-        List<String> lore = new ArrayList<String>();
-        boolean first2 = true;
-        for (String s4:s3) {
-            if (first2) first2 = false;
-            else lore.add(s4);
-        }
-        im.setLore(lore);
-        is.setItemMeta(im);
-        return getHoverActionData(is);
     }
 
     /**
