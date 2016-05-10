@@ -1,37 +1,28 @@
 package com.fyxridd.lib.core.api;
 
 import com.comphenix.packetwrapper.WrapperPlayServerBlockChange;
-import com.comphenix.packetwrapper.WrapperPlayServerWorldParticles;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.BlockPosition;
 import com.comphenix.protocol.wrappers.EnumWrappers;
 import com.comphenix.protocol.wrappers.WrappedBlockData;
-import com.fyxridd.lib.core.api.event.FixDamageEvent;
-import com.fyxridd.lib.core.api.hashList.HashList;
-import com.fyxridd.lib.core.api.nbt.AttributeStorage;
-import com.fyxridd.lib.core.api.nbt.Attributes;
+import com.fyxridd.lib.core.CoreMain;
+import com.fyxridd.lib.core.CorePlugin;
+import com.fyxridd.lib.core.api.fancymessage.FancyMessage;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.*;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.projectiles.ProjectileSource;
 
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
-import java.nio.charset.Charset;
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.jar.JarEntry;
 import java.util.jar.JarInputStream;
@@ -150,7 +141,7 @@ public class CoreApi {
      * @param msg 调试信息,可为null
      */
     public static void debug(String msg) {
-        if (CoreMain.debug) System.out.println("["+getSimpleDateTime()+"] "+msg);
+        if (CoreMain.debug) System.out.println("["+UtilApi.getSimpleDateTime()+"] "+msg);
     }
 
     /**
@@ -160,8 +151,6 @@ public class CoreApi {
      * @throws IllegalArgumentException 如果l为null
      */
     public static Player getNearestPlayer(Location l) {
-        Validate.notNull(l);
-
         Player p = null;
         double distance = 9999;
         for (Player pp:l.getWorld().getPlayers()) {
@@ -186,7 +175,7 @@ public class CoreApi {
      * @return 不为null
      */
     public static List<Player> getNearbyPlayers(Location l, double range) {
-        List<Player> result = new ArrayList<Player>();
+        List<Player> result = new ArrayList<>();
         if (l == null || range < 0.0) return result;
         for (Player p:l.getWorld().getPlayers()) {
             if (l.distance(p.getLocation()) <= range) result.add(p);
@@ -360,7 +349,7 @@ public class CoreApi {
     }
 
     /**
-     * @see #sendMsg(Location, double, boolean, com.fyxridd.lib.core.api.inter.FancyMessage, boolean)
+     * @see #sendMsg(Location, double, boolean, FancyMessage, boolean)
      */
     public static void sendMsg(Location l, double range, boolean nearest, String msg, boolean force) {
         FancyMessage fancyMessage = new FancyMessageImpl(msg);

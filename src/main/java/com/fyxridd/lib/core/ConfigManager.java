@@ -2,6 +2,7 @@ package com.fyxridd.lib.core;
 
 import com.fyxridd.lib.core.api.*;
 import com.fyxridd.lib.core.api.event.ReloadConfigEvent;
+import com.fyxridd.lib.core.api.fancymessage.FancyMessage;
 import com.fyxridd.lib.core.api.hashList.HashListImpl;
 import com.fyxridd.lib.core.api.inter.*;
 import com.fyxridd.lib.core.api.hashList.HashList;

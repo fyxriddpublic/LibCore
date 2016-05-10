@@ -429,6 +429,7 @@ public class UtilApi {
         return sb.toString();
     }
 
+    //performance
     private static final DecimalFormat format2 = new DecimalFormat("#.00");
 
     /**

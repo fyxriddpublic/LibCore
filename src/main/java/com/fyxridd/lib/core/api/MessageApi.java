@@ -1,23 +1,40 @@
 package com.fyxridd.lib.core.api;
 
-import com.fyxridd.lib.core.FancyMessageImpl;
-import com.fyxridd.lib.core.api.inter.Page;
-import com.fyxridd.lib.core.show.condition.Condition;
-import com.fyxridd.lib.core.api.inter.FancyMessage;
-import net.minecraft.server.v1_8_R3.NBTTagCompound;
+import com.fyxridd.lib.core.api.fancymessage.FancyMessage;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.MemorySection;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftItemStack;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.json.JSONException;
+import org.json.JSONStringer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class MessageApi {
+    /**
+     * @return Json String
+     */
+    public static String makeMultilineTooltip(String[] lines) {
+        final JSONStringer json = new JSONStringer();
+        try {
+            json.object().key("id").value(1);
+            json.key("tag").object().key("display").object();
+            json.key("Name").value("\\u00A7f" + lines[0].replace("\"", "\\\""));
+            json.key("Lore").array();
+            for (int i = 1; i < lines.length; i++) {
+                final String line = lines[i];
+                json.value(line.isEmpty() ? " " : line.replace("\"", "\\\""));
+            }
+            json.endArray().endObject().endObject().endObject();
+        } catch (final JSONException e) {
+            throw new RuntimeException("invalid tooltip");
+        }
+        return json.toString();
+    }
     /**
      * 获取悬浮提示信息(mc能识别处理的)
      * @param hoverActionString 提示信息字符串,不为null

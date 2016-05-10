@@ -1,12 +1,11 @@
 package com.fyxridd.lib.core;
 
 import com.fyxridd.lib.core.api.ConfigApi;
-import com.fyxridd.lib.core.api.CoreApi;
 import com.fyxridd.lib.core.api.CorePlugin;
 import com.fyxridd.lib.core.api.FormatApi;
 import com.fyxridd.lib.core.api.UtilApi;
 import com.fyxridd.lib.core.api.event.ReloadConfigEvent;
-import com.fyxridd.lib.core.api.inter.FancyMessage;
+import com.fyxridd.lib.core.api.fancymessage.FancyMessage;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
