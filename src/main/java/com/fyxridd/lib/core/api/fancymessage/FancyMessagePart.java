@@ -136,10 +136,6 @@ public class FancyMessagePart implements Cloneable{
 
     @Override
     public FancyMessagePart clone() {
-        //color
-        ChatColor color;
-        if (this.color != null) color = ChatColor.getByChar(this.color.getChar());
-        else color = null;
         //styles
         ChatColor[] styles;
         if (this.styles != null) styles = this.styles.clone();

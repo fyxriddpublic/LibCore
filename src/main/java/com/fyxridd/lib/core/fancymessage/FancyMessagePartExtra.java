@@ -1,14 +1,16 @@
 package com.fyxridd.lib.core.fancymessage;
 
+import com.fyxridd.lib.core.api.fancymessage.Conditional;
 import com.fyxridd.lib.core.api.fancymessage.Convertable;
 import com.fyxridd.lib.core.api.fancymessage.FancyMessagePart;
+import com.fyxridd.lib.core.api.fancymessage.Itemable;
 import com.fyxridd.lib.core.api.hashList.HashList;
 import com.fyxridd.lib.core.api.hashList.HashListImpl;
 import org.bukkit.ChatColor;
 
 import java.util.HashMap;
 
-public class FancyMessagePartExtra extends FancyMessagePart implements Convertable{
+public class FancyMessagePartExtra extends FancyMessagePart implements Convertable, Itemable, Conditional{
     /**
      * 是否有替换符/列表符
      */
@@ -17,6 +19,11 @@ public class FancyMessagePartExtra extends FancyMessagePart implements Convertab
      * 列表符列表,格式'数字.属性'或'数字.方法()'或'数字.方法(name)'
      */
     private HashList<String> listFix;
+
+    /**
+     * 绑定的悬浮物品名
+     */
+    private String item;
 
     //优化策略
     //使用前是否需要进行update()
@@ -28,10 +35,11 @@ public class FancyMessagePartExtra extends FancyMessagePart implements Convertab
         updateFlag = true;
     }
 
-    private FancyMessagePartExtra(String text, ChatColor color, ChatColor[] styles, String clickActionName, String clickActionData, String hoverActionName, String hoverActionData, boolean hasFix, HashList<String> listFix) {
+    private FancyMessagePartExtra(String text, ChatColor color, ChatColor[] styles, String clickActionName, String clickActionData, String hoverActionName, String hoverActionData, boolean hasFix, HashList<String> listFix, String item) {
         super(text, color, styles, clickActionName, clickActionData, hoverActionName, hoverActionData);
         this.hasFix = hasFix;
         this.listFix = listFix;
+        this.item = item;
     }
 
     @Override
@@ -52,6 +60,15 @@ public class FancyMessagePartExtra extends FancyMessagePart implements Convertab
         updateFlag = true;
     }
 
+    public String getItem() {
+        return item;
+    }
+
+    public void setItem(String item) {
+        this.item = item;
+        updateFlag = true;
+    }
+
     @Override
     public FancyMessagePart clone() {
         //listFix
@@ -60,16 +77,12 @@ public class FancyMessagePartExtra extends FancyMessagePart implements Convertab
             listFix = new HashListImpl<>();
             for (String s:this.listFix) listFix.add(s);
         }else listFix = null;
-        //color
-        ChatColor color;
-        if (this.getColor() != null) color = ChatColor.getByChar(this.getColor().getChar());
-        else color = null;
         //styles
         ChatColor[] styles;
         if (this.getStyles() != null) styles = this.getStyles().clone();
         else styles = null;
         //新建
-        return new FancyMessagePartExtra(this.getText(), color, styles, getClickActionName(), getClickActionData(), getHoverActionName(), getHoverActionData(), hasFix, listFix);
+        return new FancyMessagePartExtra(text, color, styles, getClickActionName(), getClickActionData(), getHoverActionName(), getHoverActionData(), hasFix, listFix, item);
     }
 
     /**
@@ -145,6 +158,16 @@ public class FancyMessagePartExtra extends FancyMessagePart implements Convertab
             //hover
             if (hoverActionData != null) hoverActionData = hoverActionData.replace(name, show);
         }
+    }
+
+    @Override
+    public String getHoverItem() {
+        return item;
+    }
+
+    @Override
+    public boolean checkCondition() {
+        
     }
 
     /**

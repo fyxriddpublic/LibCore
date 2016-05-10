@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 /**
  * 可转换变量的
+ * (可被FancyMessagePart的子类实现)
  */
 public interface Convertable {
     /**
