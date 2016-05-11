@@ -9,7 +9,6 @@ import org.json.JSONException;
 import org.json.JSONStringer;
 
 import java.util.HashMap;
-import java.util.List;
 
 public class MessageApi {
     /**
