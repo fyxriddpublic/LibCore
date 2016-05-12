@@ -4,15 +4,16 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 /**
- * (重新)读取配置文件结束后调用的事件,意在各部分更新数据<br>
- * 注意事件的优先级必须大于LOWEST,否则读取到的语言文件可能还是旧的!
+ * 请求重新读取配置文件
  */
 public class ReloadConfigEvent extends Event {
 	private static final HandlerList handlers = new HandlerList();
 	private String plugin;
+    private boolean override;
 
-	public ReloadConfigEvent(String plugin) {
+	public ReloadConfigEvent(String plugin, boolean override) {
 		this.plugin = plugin;
+        this.override = override;
 	}
 	
 	public HandlerList getHandlers() {
@@ -24,10 +25,13 @@ public class ReloadConfigEvent extends Event {
 	}
 	
 	/**
-	 * 获取发出此事件的插件<br>
-	 * 指哪个插件需要重新读取配置文件
+	 * 需要重新读取配置文件的插件
 	 */
 	public String getPlugin() {
 		return plugin;
 	}
+
+    public boolean isOverride() {
+        return override;
+    }
 }

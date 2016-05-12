@@ -4,7 +4,6 @@ import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import com.fyxridd.lib.core.api.ConfigApi;
 import com.fyxridd.lib.core.api.CorePlugin;
-import com.fyxridd.lib.core.api.event.ReloadConfigEvent;
 import com.fyxridd.lib.core.api.hashList.HashList;
 import com.fyxridd.lib.core.eco.EcoManager;
 import com.fyxridd.lib.core.per.CmdManager;

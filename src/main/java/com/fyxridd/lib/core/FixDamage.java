@@ -9,7 +9,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 
 import com.fyxridd.lib.core.api.CorePlugin;
-import com.fyxridd.lib.core.api.event.ReloadConfigEvent;
 
 public class FixDamage implements Listener{
     private HashMap<Integer, Integer> fixDamage;
