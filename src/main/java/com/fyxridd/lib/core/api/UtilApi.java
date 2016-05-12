@@ -27,6 +27,27 @@ public class UtilApi {
     private static Pattern ColorPattern = Pattern.compile("&[0123456789abcdeflmnor]");
 
     /**
+     * 获取带后缀的文件名
+     * @param fullName 全名,如"a/b/name.hbm.xml"
+     * @return 如"a/b/name.hbm.xml"返回"name.hbm.xml"
+     */
+    public static String getFileNameWithSuffix(String fullName) {
+        String[] args = fullName.split("/");
+        return args[args.length-1];
+    }
+
+    /**
+     * 获取无后缀的文件名
+     * 允许文件名带.
+     * @param fullName 全名,如"a/b/name.hbm.xml"
+     * @return 如"a/b/name.hbm.xml"返回"name.hbm"
+     */
+    public static String getFileNameWithoutSuffix(String fullName) {
+        String s = getFileNameWithSuffix(fullName);
+        return s.substring(0, s.lastIndexOf("."));
+    }
+
+    /**
      * 获取列表元素总数
      * @param list 列表对象,null时返回0
      * @param type 传入的列表类型: 0指List类型,1指Object[]类型,2指Collection类型,3指HashList类型,其它情况下返回0
