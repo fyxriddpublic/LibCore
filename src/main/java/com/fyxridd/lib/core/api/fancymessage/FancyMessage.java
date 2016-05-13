@@ -1,9 +1,8 @@
 package com.fyxridd.lib.core.api.fancymessage;
 
 import org.bukkit.ChatColor;
-import org.bukkit.inventory.ItemStack;
 
-import java.util.List;
+import java.util.Map;
 
 public interface FancyMessage extends Cloneable{
     FancyMessage text(final String text);
@@ -22,13 +21,11 @@ public interface FancyMessage extends Cloneable{
 	
 	FancyMessage itemTooltip(final String itemJSON);
 	
-	FancyMessage itemTooltip(final ItemStack itemStack);
-	
 	FancyMessage tooltip(final String text);
 
 	FancyMessage then(final Object obj);
 
-    List<FancyMessagePart> getMessageParts();
+    Map<Integer, FancyMessagePart> getMessageParts();
 
     /**
      * 获取无格式文本(在没有hover与click的情况下信息内容是一样的)

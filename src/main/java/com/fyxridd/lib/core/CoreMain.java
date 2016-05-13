@@ -6,6 +6,7 @@ import com.fyxridd.lib.core.api.ConfigApi;
 import com.fyxridd.lib.core.api.CorePlugin;
 import com.fyxridd.lib.core.api.hashList.HashList;
 import com.fyxridd.lib.core.eco.EcoManager;
+import com.fyxridd.lib.core.manager.MessageManager;
 import com.fyxridd.lib.core.per.CmdManager;
 import com.fyxridd.lib.core.show.ShowManager;
 import com.fyxridd.lib.core.transaction.TransactionManager;
@@ -23,6 +24,7 @@ public class CoreMain implements Listener{
     public static boolean libMsgHook;
 
     //other
+    public MessageManager messageManager;
     public static FormatManager formatManager;
     public static FuncManager funcManager;
     public static ShowManager showManager;
@@ -63,6 +65,7 @@ public class CoreMain implements Listener{
         ProtocolManager pm = ProtocolLibrary.getProtocolManager();
         FancyMessageImpl.init(pm);
         //manager
+        messageManager = new MessageManager();
         formatManager = new FormatManager();
         funcManager = new FuncManager();
         showManager = new ShowManager();
@@ -97,6 +100,10 @@ public class CoreMain implements Listener{
     @EventHandler(priority= EventPriority.LOW)
     public void onReloadConfig(ReloadConfigEvent e) {
         if (e.getPlugin().equals(CorePlugin.pn)) loadConfig();
+    }
+
+    public MessageManager getMessageManager() {
+        return messageManager;
     }
 
     private void initConfig() {

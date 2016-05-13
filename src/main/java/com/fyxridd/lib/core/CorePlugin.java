@@ -21,6 +21,8 @@ public class CorePlugin extends JavaPlugin{
     //插件版本
     public static String ver;
 
+    private CoreMain coreMain;
+
     @Override
     public void onLoad() {
         CoreApi.serverPath = System.getProperty("user.dir");
@@ -40,7 +42,7 @@ public class CorePlugin extends JavaPlugin{
     //启动插件
     @Override
     public void onEnable() {
-        new CoreMain();
+        coreMain = new CoreMain();
 
         //成功启动
         CoreApi.sendConsoleMessage(FormatApi.get(pn, 25, pn, ver).getText());
@@ -75,6 +77,10 @@ public class CorePlugin extends JavaPlugin{
             Bukkit.shutdown();
         }
         return true;
+    }
+
+    public CoreMain getCoreMain() {
+        return coreMain;
     }
 
     private static FancyMessage get(int id, Object... args) {

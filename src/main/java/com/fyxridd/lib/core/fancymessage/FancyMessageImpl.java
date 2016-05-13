@@ -5,23 +5,23 @@ import com.fyxridd.lib.core.api.fancymessage.FancyMessage;
 import com.fyxridd.lib.core.api.fancymessage.FancyMessagePart;
 import com.fyxridd.lib.core.api.fancymessage.Optimizable;
 import org.bukkit.ChatColor;
-import org.bukkit.inventory.ItemStack;
 import org.json.JSONException;
 import org.json.JSONStringer;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class FancyMessageImpl implements FancyMessage,Optimizable {
-	private final List<FancyMessagePart> messageParts;
+	private final Map<Integer, FancyMessagePart> messageParts;
 
-	private FancyMessageImpl(List<FancyMessagePart> messageParts) {
+	private FancyMessageImpl(Map<Integer, FancyMessagePart> messageParts) {
 		this.messageParts = messageParts;
 	}
 	
 	public FancyMessageImpl(String firstPartText) {
-		messageParts = new ArrayList<>();
-		messageParts.add(new FancyMessagePart(firstPartText));
+		messageParts = new HashMap<>();
+        then(firstPartText);
 	}
 
     @Override
@@ -81,11 +81,6 @@ public class FancyMessageImpl implements FancyMessage,Optimizable {
 	}
 
     @Override
-	public FancyMessageImpl itemTooltip(final ItemStack itemStack) {
-		return itemTooltip(MessageApi.getHoverActionData(itemStack));
-	}
-
-    @Override
 	public FancyMessageImpl tooltip(final String text) {
 		final String[] lines = text.split("\\n");
 		if (lines.length <= 1) {
@@ -98,36 +93,31 @@ public class FancyMessageImpl implements FancyMessage,Optimizable {
 
     @Override
 	public FancyMessageImpl then(final Object obj) {
-		messageParts.add(new FancyMessagePart(obj.toString()));
+		messageParts.put(messageParts.size(), new FancyMessagePart(obj.toString()));
 		return this;
 	}
 
     @Override
-    public List<FancyMessagePart> getMessageParts() {
+    public Map<Integer, FancyMessagePart> getMessageParts() {
         return messageParts;
     }
 
     @Override
 	public String getText() {
 		String result = "";
-        for (FancyMessagePart mp : messageParts) result += mp.getText();
+        for (int index=0;index<messageParts.size();index++) result += messageParts.get(index).getText();
 		return result;
 	}
 
     @Override
     public void combine(FancyMessage fm, boolean front) {
-        int size = fm.getMessageParts().size();
-        if (front) {
-            for (int i=size-1;i>=0;i--) {
-                FancyMessagePart mp = fm.getMessageParts().get(i).clone();
-                this.messageParts.add(0, mp);
-            }
-        }else {
-            for (int i=0;i<size;i++) {
-                FancyMessagePart mp = fm.getMessageParts().get(i).clone();
-                this.messageParts.add(mp);
-            }
-        }
+        //复制
+        FancyMessage fmClone = fm.clone();
+        //移位
+        if (front) MessageApi.move(messageParts, fmClone.getMessageParts().size());
+        else MessageApi.move(fmClone.getMessageParts(), messageParts.size());
+        //添加
+        messageParts.putAll(fmClone.getMessageParts());
     }
 
     @Override
@@ -149,9 +139,9 @@ public class FancyMessageImpl implements FancyMessage,Optimizable {
 
     @Override
     public FancyMessageImpl clone() {
-        List<FancyMessagePart> messageParts = new ArrayList<>();
-        for (FancyMessagePart mp:this.messageParts) {
-            messageParts.add(mp.clone());
+        Map<Integer, FancyMessagePart> messageParts = new HashMap<>();
+        for (Map.Entry<Integer, FancyMessagePart> entry:this.messageParts.entrySet()) {
+            messageParts.put();
         }
         FancyMessageImpl result = new FancyMessageImpl(messageParts);
         return result;

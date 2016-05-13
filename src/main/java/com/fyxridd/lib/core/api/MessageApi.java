@@ -1,7 +1,10 @@
 package com.fyxridd.lib.core.api;
 
+import com.fyxridd.lib.core.CorePlugin;
 import com.fyxridd.lib.core.api.fancymessage.FancyMessage;
+import com.fyxridd.lib.core.api.fancymessage.FancyMessagePart;
 import org.bukkit.ChatColor;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.MemorySection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
@@ -9,8 +12,27 @@ import org.json.JSONException;
 import org.json.JSONStringer;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class MessageApi {
+    /**
+     * 往后移位
+     * @param offset 移的数量,<=0时无效果
+     */
+    public static void move(Map<Integer, FancyMessagePart> map, int offset) {
+        if (offset <= 0) return;
+
+        //移
+        for (int index=map.size()-1;index>=0;index--) {
+            map.put(index+offset, map.get(index));
+        }
+
+        //删
+        for (int index=0;index<offset;index++) {
+            map.remove(index);
+        }
+    }
+
     /**
      * @return Json String
      */
@@ -32,6 +54,10 @@ public class MessageApi {
         return json.toString();
     }
 
+    public static String getHoverActionData(String line) {
+        return makeMultilineTooltip(line.split("\n"));
+    }
+
     /**
      * 根据物品获取悬浮提示信息(mc能识别处理的)
      * @param is 物品,不为null
@@ -40,6 +66,7 @@ public class MessageApi {
     public static String getHoverActionData(ItemStack is) {
         return CraftItemStack.asNMSCopy(is).save(new NBTTagCompound()).toString();
     }
+
     public static void color(FancyMessage.MessagePart mp, final ChatColor color) {
         if (!color.isColor()) {
             throw new IllegalArgumentException(color.name() + " is not a color");
@@ -194,5 +221,14 @@ public class MessageApi {
         } catch (Exception e) {
             return null;
         }
+    }
+
+    /**
+     * @param msg 文字内容
+     * @param config 可为null
+     * @return 不为null
+     */
+    public static FancyMessage load(String msg, ConfigurationSection config) {
+        return CorePlugin.instance.getCoreMain().getMessageManager().load(msg, config);
     }
 }
