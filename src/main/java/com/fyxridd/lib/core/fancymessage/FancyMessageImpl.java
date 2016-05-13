@@ -8,7 +8,6 @@ import org.bukkit.ChatColor;
 import org.json.JSONException;
 import org.json.JSONStringer;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -128,7 +127,7 @@ public class FancyMessageImpl implements FancyMessage,Optimizable {
                 latest().writeJson(json);
             } else {
                 json.object().key("text").value("").key("extra").array();
-                for (final FancyMessagePart part : messageParts) part.writeJson(json);
+                for (int index=0;index<messageParts.size();index++) messageParts.get(index).writeJson(json);
                 json.endArray().endObject();
             }
         } catch (final JSONException e) {
@@ -140,11 +139,8 @@ public class FancyMessageImpl implements FancyMessage,Optimizable {
     @Override
     public FancyMessageImpl clone() {
         Map<Integer, FancyMessagePart> messageParts = new HashMap<>();
-        for (Map.Entry<Integer, FancyMessagePart> entry:this.messageParts.entrySet()) {
-            messageParts.put();
-        }
-        FancyMessageImpl result = new FancyMessageImpl(messageParts);
-        return result;
+        for (Map.Entry<Integer, FancyMessagePart> entry:this.messageParts.entrySet()) messageParts.put(entry.getKey(), entry.getValue().clone());
+        return new FancyMessageImpl(messageParts);
     }
 
     @Override
