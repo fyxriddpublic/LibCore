@@ -9,6 +9,9 @@ import com.fyxridd.lib.core.matcher.StringMatcherImpl;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.*;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.Charset;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -58,7 +61,53 @@ public class UtilApi {
         Class<T> unwrapped = (Class<T>) WRAPPER_TO_PRIMITIVE_TYPE.get(type);
         return (unwrapped == null) ? type : unwrapped;
     }
-    
+
+    /**
+     * 设置Field的值(即使Field私有也可以)
+     */
+    public static void setField(Field field, Object obj, Object value) {
+        boolean access = field.isAccessible();
+        field.setAccessible(true);
+        try {
+            field.set(obj, value);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        field.setAccessible(access);
+    }
+
+    /**
+     * 使用空构造器
+     * @see #newInstance(Class, Class[], Object[])
+     */
+    public static <T> T newInstance(Class<T> c) {
+        return newInstance(c, new Class[0], new Object[0]);
+    }
+
+    /**
+     * 新建实例(即使构造器私有也可以)
+     * @return 异常返回null
+     */
+    public static <T> T newInstance(Class<T> c, Class[] classParams, Object[] args) {
+        try {
+            Constructor<T> constructor = c.getDeclaredConstructor(classParams);
+            boolean access = constructor.isAccessible();
+            constructor.setAccessible(true);
+            T result = constructor.newInstance(args);
+            constructor.setAccessible(access);
+            return result;
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     /**
      * 获取带后缀的文件名
      * @param fullName 全名,如"a/b/name.hbm.xml"
