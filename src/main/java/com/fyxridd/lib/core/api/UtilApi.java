@@ -109,6 +109,20 @@ public class UtilApi {
     }
 
     /**
+     * 把详细的异常信息转化成字符串,多行以'\n'连接
+     */
+    public static String convertException(Exception e) {
+        boolean first = true;
+        String result = "";
+        for (StackTraceElement ele:e.getStackTrace()) {
+            if (first) first = false;
+            else result += "\n";
+            result += ele.toString();
+        }
+        return result;
+    }
+
+    /**
      * 获取带后缀的文件名
      * @param fullName 全名,如"a/b/name.hbm.xml"
      * @return 如"a/b/name.hbm.xml"返回"name.hbm.xml"

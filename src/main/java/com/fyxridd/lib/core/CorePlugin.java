@@ -1,6 +1,8 @@
 package com.fyxridd.lib.core;
 
+import com.fyxridd.lib.config.api.ConfigApi;
 import com.fyxridd.lib.core.api.CoreApi;
+import com.fyxridd.lib.core.config.LangConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -21,6 +23,8 @@ public class CorePlugin extends JavaPlugin{
     //插件版本
     public static String ver;
 
+    private LangConfig langConfig;
+
     private CoreMain coreMain;
 
     @Override
@@ -35,8 +39,12 @@ public class CorePlugin extends JavaPlugin{
         dataPath = CoreApi.pluginPath + File.separator+pn;
         ver = CoreApi.getPluginVersion(getFile());
 
-        //生成文件
-        ConfigApi.generateFiles(getFile(), pn);
+        ConfigApi.addListener(pn, LangConfig.class, new com.fyxridd.lib.config.manager.ConfigManager.Setter<LangConfig>() {
+            @Override
+            public void set(LangConfig value) {
+                langConfig = value;
+            }
+        });
     }
 
     //启动插件
@@ -77,6 +85,10 @@ public class CorePlugin extends JavaPlugin{
             Bukkit.shutdown();
         }
         return true;
+    }
+
+    public LangConfig getLangConfig() {
+        return langConfig;
     }
 
     public CoreMain getCoreMain() {
