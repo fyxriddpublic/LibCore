@@ -229,6 +229,6 @@ public class MessageApi {
      * @return 不为null
      */
     public static FancyMessage load(String msg, ConfigurationSection config) {
-        return CorePlugin.instance.getCoreMain().getMessageManager().load(msg, config);
+        return CorePlugin.instance.getCoreManager().getMessageManager().load(msg, config);
     }
 }

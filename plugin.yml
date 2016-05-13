@@ -1,5 +1,5 @@
 ﻿name: LibCore
-main: com.fyxridd.lib.core.api.CorePlugin
+main: com.fyxridd.lib.core.CorePlugin
 version: 0.1.0
 load: startup
 depend: [Vault, ProtocolLib, PacketWrapper, LibConfig, LibLang]

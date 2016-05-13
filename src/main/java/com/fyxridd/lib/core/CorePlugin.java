@@ -2,30 +2,19 @@ package com.fyxridd.lib.core;
 
 import com.fyxridd.lib.config.api.ConfigApi;
 import com.fyxridd.lib.core.api.CoreApi;
+import com.fyxridd.lib.core.api.SimplePlugin;
 import com.fyxridd.lib.core.config.LangConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.File;
-
-public class CorePlugin extends JavaPlugin{
+public class CorePlugin extends SimplePlugin{
     public static CorePlugin instance;
-
-    //插件名
-    public static String pn;
-    //插件jar文件
-    public static File file;
-    //插件数据文件夹路径
-    public static String dataPath;
-    //插件版本
-    public static String ver;
 
     private LangConfig langConfig;
 
-    private CoreMain coreMain;
+    private CoreManager coreManager;
 
     @Override
     public void onLoad() {
@@ -33,44 +22,39 @@ public class CorePlugin extends JavaPlugin{
         CoreApi.pluginPath = getFile().getParentFile().getAbsolutePath();
         CoreApi.serverVer = CoreApi.getMcVersion(Bukkit.getServer());
 
-        instance = this;
-        pn = getName();
-        file = getFile();
-        dataPath = CoreApi.pluginPath + File.separator+pn;
-        ver = CoreApi.getPluginVersion(getFile());
+        super.onLoad();
+    }
 
+    //启动插件
+    @Override
+    public void onEnable() {
+        instance = this;
+
+        //注册配置对象
+        com.fyxridd.lib.config.api.ConfigApi.register(pn, LangConfig.class);
+        //添加配置监听
         ConfigApi.addListener(pn, LangConfig.class, new com.fyxridd.lib.config.manager.ConfigManager.Setter<LangConfig>() {
             @Override
             public void set(LangConfig value) {
                 langConfig = value;
             }
         });
-    }
 
-    //启动插件
-    @Override
-    public void onEnable() {
-        coreMain = new CoreMain();
+        //初始化
+        coreManager = new CoreManager();
 
-        //成功启动
-        CoreApi.sendConsoleMessage(FormatApi.get(pn, 25, pn, ver).getText());
+        super.onEnable();
     }
 
     //停止插件
     @Override
     public void onDisable() {
         //Info
-        CoreMain.info.onDisable();
-        //Eco
-        CoreMain.ecoManager.onDisable();
-        //Per
-        CoreMain.perManager.onDisable();
-        //ConfigManager
-        ConfigManager.onDisable();
+        CoreManager.info.onDisable();
         //计时器
         Bukkit.getScheduler().cancelAllTasks();
-        //显示插件成功停止信息
-        CoreApi.sendConsoleMessage(FormatApi.get(pn, 30, pn, ver).getText());
+
+        super.onDisable();
     }
 
     @Override
@@ -91,11 +75,7 @@ public class CorePlugin extends JavaPlugin{
         return langConfig;
     }
 
-    public CoreMain getCoreMain() {
-        return coreMain;
-    }
-
-    private static FancyMessage get(int id, Object... args) {
-        return FormatApi.get(CorePlugin.pn, id, args);
+    public CoreManager getCoreManager() {
+        return coreManager;
     }
 }

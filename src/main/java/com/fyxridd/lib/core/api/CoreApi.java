@@ -7,7 +7,7 @@ import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.BlockPosition;
 import com.comphenix.protocol.wrappers.EnumWrappers;
 import com.comphenix.protocol.wrappers.WrappedBlockData;
-import com.fyxridd.lib.core.CoreMain;
+import com.fyxridd.lib.core.CoreManager;
 import com.fyxridd.lib.core.CorePlugin;
 import com.fyxridd.lib.core.api.fancymessage.FancyMessage;
 import org.bukkit.*;
@@ -141,7 +141,7 @@ public class CoreApi {
      * @param msg 调试信息,可为null
      */
     public static void debug(String msg) {
-        if (CoreMain.debug) System.out.println("["+UtilApi.getSimpleDateTime()+"] "+msg);
+        if (CoreManager.debug) System.out.println("["+UtilApi.getSimpleDateTime()+"] "+msg);
     }
 
     /**

@@ -20,7 +20,7 @@ import org.bukkit.event.Listener;
 
 import java.util.HashMap;
 
-public class CoreMain implements Listener{
+public class CoreManager implements Listener{
     public static boolean libMsgHook;
 
     //other
@@ -53,7 +53,7 @@ public class CoreMain implements Listener{
     public static HashMap<Integer, Integer> fixDamage;
 
     //启动插件
-    public CoreMain() {
+    public CoreManager() {
        //前置检测
         try {
             Class.forName("com.fyxridd.lib.msg.api.MsgApi");
