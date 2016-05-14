@@ -37,7 +37,6 @@ public class CoreManager implements Listener{
     public static Time time;
     public static Tps tps;
     public static Speed speed;
-    public static Names names;
     public static RealDamage realDamage;
     public static InputManager inputManager;
     public static RealName realName;
@@ -80,7 +79,6 @@ public class CoreManager implements Listener{
         time = new Time();
         tps = new Tps();
         speed = new Speed();
-        names = new Names();
         realDamage = new RealDamage();
         inputManager = new InputManager();
         realName = new RealName();

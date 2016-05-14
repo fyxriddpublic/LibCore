@@ -2,7 +2,7 @@ package com.fyxridd.lib.core;
 
 import com.fyxridd.lib.config.api.ConfigApi;
 import com.fyxridd.lib.core.api.CoreApi;
-import com.fyxridd.lib.core.api.SimplePlugin;
+import com.fyxridd.lib.core.api.plugin.SimplePlugin;
 import com.fyxridd.lib.core.api.event.ServerCloseEvent;
 import com.fyxridd.lib.core.api.fancymessage.FancyMessage;
 import com.fyxridd.lib.core.config.LangConfig;

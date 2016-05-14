@@ -1,7 +1,8 @@
-package com.fyxridd.lib.core.api;
+package com.fyxridd.lib.core.api.plugin;
 
 import com.fyxridd.lib.config.api.GenerateApi;
 import com.fyxridd.lib.core.CorePlugin;
+import com.fyxridd.lib.core.api.CoreApi;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 

@@ -153,20 +153,6 @@ public class PlayerApi {
     }
 
     /**
-     * @see Info#getInfo(String, String)
-     */
-    public static String getInfo(String name, String flag) {
-        return CoreMain.info.getInfo(name, flag);
-    }
-
-    /**
-     * @see Info#setInfo(String, String, String)
-     */
-    public static void setInfo(String name, String flag, String data) {
-        CoreMain.info.setInfo(name, flag, data);
-    }
-
-    /**
      * @see RealName#getRealName(CommandSender, String)
      */
     public static String getRealName(CommandSender sender, String name) {
