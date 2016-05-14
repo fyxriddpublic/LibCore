@@ -6,6 +6,7 @@ import com.fyxridd.lib.core.api.plugin.SimplePlugin;
 import com.fyxridd.lib.core.api.event.ServerCloseEvent;
 import com.fyxridd.lib.core.api.fancymessage.FancyMessage;
 import com.fyxridd.lib.core.config.LangConfig;
+import com.fyxridd.lib.core.manager.SyncChatManager;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -17,6 +18,7 @@ public class CorePlugin extends SimplePlugin{
     private LangConfig langConfig;
 
     private CoreManager coreManager;
+    private SyncChatManager syncChatManager;
 
     @Override
     public void onLoad() {
@@ -44,6 +46,7 @@ public class CorePlugin extends SimplePlugin{
 
         //初始化
         coreManager = new CoreManager();
+        syncChatManager = new SyncChatManager();
 
         super.onEnable();
     }
@@ -77,6 +80,10 @@ public class CorePlugin extends SimplePlugin{
 
     public CoreManager getCoreManager() {
         return coreManager;
+    }
+
+    public SyncChatManager getSyncChatManager() {
+        return syncChatManager;
     }
 
     private static FancyMessage get(String player, int id, Object... args) {
