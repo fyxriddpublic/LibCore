@@ -1,11 +1,13 @@
 package com.fyxridd.lib.core.api;
 
+import com.fyxridd.lib.config.api.GenerateApi;
 import com.fyxridd.lib.core.CorePlugin;
+import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 
-public class SimplePlugin extends JavaPlugin{
+public class SimplePlugin extends JavaPlugin implements Listener{
     //插件名
     public String pn;
     //插件jar文件
@@ -21,6 +23,8 @@ public class SimplePlugin extends JavaPlugin{
         file = getFile();
         dataPath = CoreApi.pluginPath + File.separator + pn;
         ver = CoreApi.getPluginVersion(file);
+
+        GenerateApi.registerDirToDir(pn, file, dataPath, "resources", "");
     }
 
     @Override

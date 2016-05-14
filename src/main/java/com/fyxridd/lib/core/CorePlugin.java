@@ -3,6 +3,8 @@ package com.fyxridd.lib.core;
 import com.fyxridd.lib.config.api.ConfigApi;
 import com.fyxridd.lib.core.api.CoreApi;
 import com.fyxridd.lib.core.api.SimplePlugin;
+import com.fyxridd.lib.core.api.event.ServerCloseEvent;
+import com.fyxridd.lib.core.api.fancymessage.FancyMessage;
 import com.fyxridd.lib.core.config.LangConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -49,8 +51,6 @@ public class CorePlugin extends SimplePlugin{
     //停止插件
     @Override
     public void onDisable() {
-        //Info
-        CoreManager.info.onDisable();
         //计时器
         Bukkit.getScheduler().cancelAllTasks();
 
@@ -62,7 +62,7 @@ public class CorePlugin extends SimplePlugin{
         if (cmd.getName().equalsIgnoreCase("stop")) {
             if (sender instanceof Player && !sender.isOp()) return true;
             //先T人
-            for (Player p:Bukkit.getOnlinePlayers()) p.kickPlayer(get(70).getText());
+            for (Player p:Bukkit.getOnlinePlayers()) p.kickPlayer(get(p.getName(), 70).getText());
             //发出关服事件
             Bukkit.getPluginManager().callEvent(new ServerCloseEvent());
             //再关服
@@ -77,5 +77,9 @@ public class CorePlugin extends SimplePlugin{
 
     public CoreManager getCoreManager() {
         return coreManager;
+    }
+
+    private static FancyMessage get(String player, int id, Object... args) {
+        return CorePlugin.instance.getLangConfig().getLang().get(player, id, args);
     }
 }
