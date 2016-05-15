@@ -4,9 +4,11 @@ import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.fyxridd.lib.core.CorePlugin;
+import com.fyxridd.lib.core.api.event.PlayerTipEvent;
 import com.fyxridd.lib.core.api.fancymessage.FancyMessage;
 import com.fyxridd.lib.core.api.fancymessage.FancyMessagePart;
 import com.fyxridd.lib.core.fancymessage.FancyMessageImpl;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.MemorySection;
@@ -24,21 +26,33 @@ public class MessageApi {
     /**
      * @see #send(Player, FancyMessage, boolean)
      */
-    public static void send(Player p, String msg, boolean check) {
-        send(p, new FancyMessageImpl(msg), check);
+    public static void send(Player p, String msg, boolean force) {
+        send(p, new FancyMessageImpl(msg), force);
     }
 
     /**
      * 向玩家发送FancyMessage
+     * 会发出玩家提示事件
      * @param p 玩家
      * @param msg 信息
-     * @param check 是否会被检测阻隔
+     * @param force 是否强制显示
      */
-    public static void send(Player p, FancyMessage msg, boolean check) {
+    public static void send(Player p, FancyMessage msg, boolean force) {
+        //发出玩家显示聊天信息事件
+        PlayerTipEvent playerTipEvent = new PlayerTipEvent(p, msg, force);
+        Bukkit.getPluginManager().callEvent(playerTipEvent);
+
+        if (!playerTipEvent.isCancelled()) sendChatPacket(p, msg);
+    }
+
+    /**
+     * 直接向玩家发送聊天信息包(不会发出事件,也不会检测ProtocolManager的限制)
+     */
+    public static void sendChatPacket(Player p, FancyMessage msg) {
         try {
             PacketContainer pc = new PacketContainer(PacketType.Play.Server.CHAT);
             pc.getChatComponents().write(0, WrappedChatComponent.fromJson(msg.toJSONString()));
-            CorePlugin.instance.getProtocolManager().sendServerPacket(p, pc, check);
+            CorePlugin.instance.getProtocolManager().sendServerPacket(p, pc, false);
         } catch (InvocationTargetException e) {
             e.printStackTrace();
         }

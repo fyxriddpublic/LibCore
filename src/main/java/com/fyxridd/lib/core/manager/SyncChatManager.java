@@ -2,7 +2,7 @@ package com.fyxridd.lib.core.manager;
 
 import com.fyxridd.lib.core.CorePlugin;
 import com.fyxridd.lib.core.api.MessageApi;
-import com.fyxridd.lib.core.api.event.PlayerChatBroadcastEvent;
+import com.fyxridd.lib.core.api.event.PlayerChatReceiveEvent;
 import com.fyxridd.lib.core.api.event.PlayerChatEvent;
 import com.fyxridd.lib.core.api.fancymessage.FancyMessage;
 import com.fyxridd.lib.lang.api.LangApi;
@@ -61,11 +61,11 @@ public class SyncChatManager{
                                 LangApi.iteratePlayer(Bukkit.getOnlinePlayers(), new LangApi.PlayerHandler() {
                                     @Override
                                     public void handle(Player p, FancyMessage msg) {
-                                        //发出聊天广播事件
-                                        PlayerChatBroadcastEvent e = new PlayerChatBroadcastEvent(p, msg);
+                                        //发出接收聊天事件
+                                        PlayerChatReceiveEvent e = new PlayerChatReceiveEvent(p, msg);
                                         Bukkit.getPluginManager().callEvent(e);
-                                        //默认处理
-                                        if (!e.isCancelled()) MessageApi.send(p, msg, true);
+                                        //默认处理: 给玩家显示聊天栏信息
+                                        if (!e.isCancelled()) MessageApi.send(p, msg, false);
                                     }
                                 }, 35, event.getP().getName(), event.getMsg());
                             }
