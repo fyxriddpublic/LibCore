@@ -1,5 +1,8 @@
 package com.fyxridd.lib.core.api;
 
+import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.events.PacketContainer;
+import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.fyxridd.lib.core.CorePlugin;
 import com.fyxridd.lib.core.api.fancymessage.FancyMessage;
 import com.fyxridd.lib.core.api.fancymessage.FancyMessagePart;
@@ -7,14 +10,32 @@ import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.MemorySection;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.json.JSONException;
 import org.json.JSONStringer;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 
 public class MessageApi {
+    /**
+     * 向玩家发送FancyMessage
+     * @param p 玩家
+     * @param msg 信息
+     * @param check 是否会被检测阻隔
+     */
+    public static void send(Player p, FancyMessage msg, boolean check) {
+        try {
+            PacketContainer pc = new PacketContainer(PacketType.Play.Server.CHAT);
+            pc.getChatComponents().write(0, WrappedChatComponent.fromJson(msg.toJSONString()));
+            CorePlugin.instance.getProtocolManager().sendServerPacket(p, pc, check);
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      * 往后移位
      * @param offset 移的数量,<=0时无效果

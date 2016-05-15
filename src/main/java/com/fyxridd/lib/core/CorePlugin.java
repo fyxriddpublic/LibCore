@@ -1,5 +1,7 @@
 package com.fyxridd.lib.core;
 
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.ProtocolManager;
 import com.fyxridd.lib.config.api.ConfigApi;
 import com.fyxridd.lib.core.api.CoreApi;
 import com.fyxridd.lib.core.api.plugin.SimplePlugin;
@@ -14,6 +16,7 @@ import org.bukkit.entity.Player;
 
 public class CorePlugin extends SimplePlugin{
     public static CorePlugin instance;
+    private ProtocolManager protocolManager;
 
     private LangConfig langConfig;
 
@@ -25,6 +28,8 @@ public class CorePlugin extends SimplePlugin{
         CoreApi.serverPath = System.getProperty("user.dir");
         CoreApi.pluginPath = getFile().getParentFile().getAbsolutePath();
         CoreApi.serverVer = CoreApi.getMcVersion(Bukkit.getServer());
+
+        protocolManager = ProtocolLibrary.getProtocolManager();
 
         super.onLoad();
     }
@@ -72,6 +77,10 @@ public class CorePlugin extends SimplePlugin{
             Bukkit.shutdown();
         }
         return true;
+    }
+
+    public ProtocolManager getProtocolManager() {
+        return protocolManager;
     }
 
     public LangConfig getLangConfig() {
