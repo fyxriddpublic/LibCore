@@ -6,6 +6,7 @@ import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.fyxridd.lib.core.CorePlugin;
 import com.fyxridd.lib.core.api.fancymessage.FancyMessage;
 import com.fyxridd.lib.core.api.fancymessage.FancyMessagePart;
+import com.fyxridd.lib.core.fancymessage.FancyMessageImpl;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.MemorySection;
@@ -20,6 +21,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MessageApi {
+    /**
+     * @see #send(Player, FancyMessage, boolean)
+     */
+    public static void send(Player p, String msg, boolean check) {
+        send(p, new FancyMessageImpl(msg), check);
+    }
+
     /**
      * 向玩家发送FancyMessage
      * @param p 玩家

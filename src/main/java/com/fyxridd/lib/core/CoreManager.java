@@ -6,6 +6,7 @@ import com.fyxridd.lib.core.api.ConfigApi;
 import com.fyxridd.lib.core.api.CorePlugin;
 import com.fyxridd.lib.core.api.hashList.HashList;
 import com.fyxridd.lib.core.eco.EcoManager;
+import com.fyxridd.lib.core.manager.EnterBlockTypeManager;
 import com.fyxridd.lib.core.manager.MessageManager;
 import com.fyxridd.lib.core.per.CmdManager;
 import com.fyxridd.lib.core.show.ShowManager;

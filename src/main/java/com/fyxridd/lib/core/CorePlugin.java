@@ -7,7 +7,10 @@ import com.fyxridd.lib.core.api.CoreApi;
 import com.fyxridd.lib.core.api.plugin.SimplePlugin;
 import com.fyxridd.lib.core.api.event.ServerCloseEvent;
 import com.fyxridd.lib.core.api.fancymessage.FancyMessage;
+import com.fyxridd.lib.core.config.CoreConfig;
 import com.fyxridd.lib.core.config.LangConfig;
+import com.fyxridd.lib.core.manager.EnterBlockTypeManager;
+import com.fyxridd.lib.core.manager.SpeedManager;
 import com.fyxridd.lib.core.manager.SyncChatManager;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -18,10 +21,13 @@ public class CorePlugin extends SimplePlugin{
     public static CorePlugin instance;
     private ProtocolManager protocolManager;
 
+    private CoreConfig coreConfig;
     private LangConfig langConfig;
 
     private CoreManager coreManager;
     private SyncChatManager syncChatManager;
+    private EnterBlockTypeManager enterBlockTypeManager;
+    private SpeedManager speedManager;
 
     @Override
     public void onLoad() {
@@ -52,6 +58,8 @@ public class CorePlugin extends SimplePlugin{
         //初始化
         coreManager = new CoreManager();
         syncChatManager = new SyncChatManager();
+        enterBlockTypeManager = new EnterBlockTypeManager();
+        speedManager = new SpeedManager();
 
         super.onEnable();
     }
@@ -83,6 +91,10 @@ public class CorePlugin extends SimplePlugin{
         return protocolManager;
     }
 
+    public CoreConfig getCoreConfig() {
+        return coreConfig;
+    }
+
     public LangConfig getLangConfig() {
         return langConfig;
     }
@@ -93,6 +105,14 @@ public class CorePlugin extends SimplePlugin{
 
     public SyncChatManager getSyncChatManager() {
         return syncChatManager;
+    }
+
+    public EnterBlockTypeManager getEnterBlockTypeManager() {
+        return enterBlockTypeManager;
+    }
+
+    public SpeedManager getSpeedManager() {
+        return speedManager;
     }
 
     private static FancyMessage get(String player, int id, Object... args) {

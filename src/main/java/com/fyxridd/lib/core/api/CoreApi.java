@@ -103,39 +103,6 @@ public class CoreApi {
     }
 
     /**
-     * @see #registerInput(Player, com.fyxridd.lib.core.api.inter.InputHandler, boolean, boolean)
-     */
-    public static boolean registerInput(Player p, InputHandler inputHandler, boolean tip) {
-        return InputManager.register(p, inputHandler, tip);
-    }
-
-    /**
-     * 注册玩家输入事件
-     * @param p 玩家,不为null
-     * @param inputHandler 处理者,不为null
-     * @param ignoreSpeed 是否忽略速度检测,true时不进行速度检测
-     * @param tip 成功删除旧的注册输入是否提示玩家
-     * @return 是否注册成功
-     */
-    public static boolean registerInput(Player p, InputHandler inputHandler, boolean ignoreSpeed, boolean tip) {
-        return InputManager.register(p, inputHandler, ignoreSpeed, tip);
-    }
-
-    /**
-     * @see InputManager#del(Player)
-     */
-    public static void delInput(Player p) {
-        InputManager.del(p);
-    }
-
-    /**
-     * @see InputManager#del(Player, boolean)
-     */
-    public static void delInput(Player p, boolean tip) {
-        InputManager.del(p, tip);
-    }
-
-    /**
      * 输出调试信息<br>
      *     是否输出由配置文件中的debug选项而定
      * @param msg 调试信息,可为null

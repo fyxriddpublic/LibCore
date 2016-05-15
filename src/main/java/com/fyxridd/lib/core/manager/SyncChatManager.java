@@ -22,9 +22,9 @@ import java.util.concurrent.locks.ReentrantLock;
  * 同步聊天管理
  */
 public class SyncChatManager{
-    private static final Lock chatLock = new ReentrantLock();
+    private final Lock chatLock = new ReentrantLock();
 
-    private static List<PlayerChatEvent> chatEvents = new ArrayList<>();
+    private List<PlayerChatEvent> chatEvents = new ArrayList<>();
 
     public SyncChatManager() {
         //监听异步聊天事件
