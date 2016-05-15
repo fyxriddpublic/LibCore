@@ -2,14 +2,15 @@ package com.fyxridd.lib.core.api;
 
 import com.comphenix.packetwrapper.WrapperPlayServerBlockChange;
 import com.comphenix.protocol.ProtocolLibrary;
-import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.BlockPosition;
 import com.comphenix.protocol.wrappers.EnumWrappers;
 import com.comphenix.protocol.wrappers.WrappedBlockData;
 import com.fyxridd.lib.core.CoreManager;
 import com.fyxridd.lib.core.CorePlugin;
+import com.fyxridd.lib.core.Tps;
 import com.fyxridd.lib.core.api.fancymessage.FancyMessage;
+import com.fyxridd.lib.core.fancymessage.FancyMessageImpl;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -38,8 +39,6 @@ public class CoreApi {
     public static String serverVer;
 
     private static final String VERSION_PATTERN = "\\(MC: [0-9.]{5}\\)";
-
-    private static ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
 
     /**
      * 在指定的位置播放一下声音(升级时的音效)
@@ -319,8 +318,7 @@ public class CoreApi {
      * @see #sendMsg(Location, double, boolean, FancyMessage, boolean)
      */
     public static void sendMsg(Location l, double range, boolean nearest, String msg, boolean force) {
-        FancyMessage fancyMessage = new FancyMessageImpl(msg);
-        sendMsg(l, range, nearest, fancyMessage, force);
+        sendMsg(l, range, nearest, MessageApi.convert(msg), force);
     }
 
     /**
@@ -337,7 +335,7 @@ public class CoreApi {
         double temp;
         for (Player tar:l.getWorld().getPlayers()) {
             if (tar.isOnline() && (temp=tar.getLocation().distance(l)) <= range) {
-                if (!nearest) ShowApi.tip(tar, msg, force);
+                if (!nearest) MessageApi.send(tar, msg, force);
                 else {
                     if (p == null) {
                         p = tar;
@@ -351,7 +349,7 @@ public class CoreApi {
                 }
             }
         }
-        if (p != null) ShowApi.tip(p, msg, force);
+        if (p != null) MessageApi.send(p, msg, force);
     }
 
     /**
@@ -390,8 +388,6 @@ public class CoreApi {
      * @throws IllegalArgumentException 如果block为null
      */
     public static Block getSignAttachedBlock(Block block) {
-        Validate.notNull(block);
-
         if (block.getType() != Material.WALL_SIGN) return null;
 
         int face = block.getData() & 0x7;
@@ -418,8 +414,6 @@ public class CoreApi {
      * @throws IllegalArgumentException 如果block为null
      */
     public static Block getTrapDoorAttachedBlock(Block block) {
-        Validate.notNull(block);
-
         if (block.getType() != Material.TRAP_DOOR) return null;
 
         int face = block.getData() & 0x3;
@@ -446,8 +440,6 @@ public class CoreApi {
      * @throws IllegalArgumentException 如果block为null
      */
     public static BlockFace getPistonFacing(Block block) {
-        Validate.notNull(block);
-
         Material type = block.getType();
         if ((type != Material.PISTON_BASE) &&
                 (type != Material.PISTON_STICKY_BASE) &&
@@ -486,9 +478,5 @@ public class CoreApi {
 
         return l1.getWorld().equals(l2.getWorld()) && l1.getBlockX() == l2.getBlockX() &&
                 l1.getBlockY() == l2.getBlockY() && l1.getBlockZ() == l2.getBlockZ();
-    }
-
-    private static FancyMessage get(int id, Object... args) {
-        return FormatApi.get(CorePlugin.pn, id, args);
     }
 }

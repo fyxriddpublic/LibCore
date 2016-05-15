@@ -10,8 +10,10 @@ import com.fyxridd.lib.core.api.fancymessage.FancyMessage;
 import com.fyxridd.lib.core.config.CoreConfig;
 import com.fyxridd.lib.core.config.LangConfig;
 import com.fyxridd.lib.core.manager.EnterBlockTypeManager;
-import com.fyxridd.lib.core.manager.SpeedManager;
+import com.fyxridd.lib.core.manager.RealDamageManager;
 import com.fyxridd.lib.core.manager.SyncChatManager;
+import com.fyxridd.lib.core.manager.TimeManager;
+import com.fyxridd.lib.core.manager.realname.RealNameManager;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -25,9 +27,11 @@ public class CorePlugin extends SimplePlugin{
     private LangConfig langConfig;
 
     private CoreManager coreManager;
+    private RealNameManager realNameManager;
     private SyncChatManager syncChatManager;
     private EnterBlockTypeManager enterBlockTypeManager;
-    private SpeedManager speedManager;
+    private RealDamageManager realDamageManager;
+    private TimeManager timeManager;
 
     @Override
     public void onLoad() {
@@ -46,6 +50,7 @@ public class CorePlugin extends SimplePlugin{
         instance = this;
 
         //注册配置对象
+        com.fyxridd.lib.config.api.ConfigApi.register(pn, CoreConfig.class);
         com.fyxridd.lib.config.api.ConfigApi.register(pn, LangConfig.class);
         //添加配置监听
         ConfigApi.addListener(pn, LangConfig.class, new com.fyxridd.lib.config.manager.ConfigManager.Setter<LangConfig>() {
@@ -54,12 +59,21 @@ public class CorePlugin extends SimplePlugin{
                 langConfig = value;
             }
         });
+        //添加配置监听
+        ConfigApi.addListener(pn, CoreConfig.class, new com.fyxridd.lib.config.manager.ConfigManager.Setter<CoreConfig>() {
+            @Override
+            public void set(CoreConfig value) {
+                coreConfig = value;
+            }
+        });
 
         //初始化
         coreManager = new CoreManager();
+        realNameManager = new RealNameManager();
         syncChatManager = new SyncChatManager();
         enterBlockTypeManager = new EnterBlockTypeManager();
-        speedManager = new SpeedManager();
+        realDamageManager = new RealDamageManager();
+        timeManager = new TimeManager();
 
         super.onEnable();
     }
@@ -103,6 +117,10 @@ public class CorePlugin extends SimplePlugin{
         return coreManager;
     }
 
+    public RealNameManager getRealNameManager() {
+        return realNameManager;
+    }
+
     public SyncChatManager getSyncChatManager() {
         return syncChatManager;
     }
@@ -111,8 +129,12 @@ public class CorePlugin extends SimplePlugin{
         return enterBlockTypeManager;
     }
 
-    public SpeedManager getSpeedManager() {
-        return speedManager;
+    public RealDamageManager getRealDamageManager() {
+        return realDamageManager;
+    }
+
+    public TimeManager getTimeManager() {
+        return timeManager;
     }
 
     private static FancyMessage get(String player, int id, Object... args) {

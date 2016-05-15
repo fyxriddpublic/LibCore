@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fyxridd.lib.core.manager.realname.RealNameMapper">
+    <select id="exist" resultType="java.lang.Boolean">
+        select count(*) from info_user where `name`=#{name} and `flag`=#{flag};
+    </select>
+
+    <select id="select" resultType="com.fyxridd.lib.info.model.InfoUser">
+        select `name`,`flag`,`data` from info_user where `name`=#{name} and `flag`=#{flag};
+    </select>
+
+    <insert id="insert">
+        insert into info_user(`name`, `flag`, `data`) values (#{name}, #{flag}, #{data});
+    </insert>
+
+    <update id="update">
+        update info_user set `data`=#{data} where `name`=#{name} and `flag`=#{flag};
+    </update>
+
+    <delete id="delete">
+        delete from info_user where `name`=#{name} and `flag`=#{flag};
+    </delete>
+</mapper>

@@ -1,40 +1,26 @@
 package com.fyxridd.lib.core.api;
 
-import com.comphenix.packetwrapper.WrapperPlayServerBlockChange;
 import com.comphenix.packetwrapper.WrapperPlayServerWorldParticles;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketContainer;
-import com.comphenix.protocol.wrappers.BlockPosition;
 import com.comphenix.protocol.wrappers.EnumWrappers;
-import com.comphenix.protocol.wrappers.WrappedBlockData;
+import com.fyxridd.lib.core.CorePlugin;
 import com.fyxridd.lib.core.api.fancymessage.FancyMessage;
-import com.fyxridd.lib.core.api.hashList.HashList;
-import org.bukkit.*;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
+import com.fyxridd.lib.core.manager.realname.NotReadyException;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.InvalidConfigurationException;
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.*;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.potion.PotionEffectType;
 import org.bukkit.projectiles.ProjectileSource;
 
-import java.io.*;
 import java.lang.reflect.InvocationTargetException;
-import java.nio.charset.Charset;
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.jar.JarEntry;
-import java.util.jar.JarInputStream;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.HashSet;
 
 public class PlayerApi {
     private static ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
@@ -60,43 +46,6 @@ public class PlayerApi {
                 if (p.isOnline() && !p.isDead()) p.updateInventory();
             }
         });
-    }
-
-    /**
-     * @see #sendTitleAll(String, String, boolean, int)
-     */
-    public static void sendTitleAll(String title, String subTitle, boolean instant) {
-        CoreMain.title.sendTitleAll(title, subTitle, instant);
-    }
-
-    /**
-     * 给所有玩家发送标题
-     * @param title 标题,可为null
-     * @param subTitle 子标题,可为null
-     * @param instant 是否立即显示
-     * @param time 显示多长时间,单位tick
-     */
-    public static void sendTitleAll(String title, String subTitle, boolean instant, int time) {
-        CoreMain.title.sendTitleAll(title, subTitle, instant, time);
-    }
-
-    /**
-     * @see #sendTitle(Player, String, String, boolean, int)
-     */
-    public static void sendTitle(Player p, String title, String subTitle, boolean instant) {
-        CoreMain.title.sendTitle(p, title, subTitle, instant);
-    }
-
-    /**
-     * 给玩家发送标题
-     * @param p 玩家
-     * @param title 标题,可为null
-     * @param subTitle 子标题,可为null
-     * @param instant 是否立即显示
-     * @param time 显示多长时间,单位tick
-     */
-    public static void sendTitle(Player p, String title, String subTitle, boolean instant, int time) {
-        CoreMain.title.sendTitle(p, title, subTitle, instant, time);
     }
 
     /**
@@ -140,36 +89,25 @@ public class PlayerApi {
 
         double origin = p.getHealth();
         p.setHealth(Math.min(p.getMaxHealth(), p.getHealth()+add));
-        ShowApi.tip(p, get(50, (p.getHealth() - origin)), false);
+        MessageApi.send(p, get(p.getName(), 50, (p.getHealth() - origin)), false);
     }
 
     /**
-     * 其它聊天插件不能自行给玩家发送聊天信息或调用ShowApi.tip方法,而要调用此方法,否则不会有延时显示聊天信息的功能
-     * @param p 玩家,可为null(null时无效果)
-     * @param msg 聊天信息,可为null(null时无效果)
-     * @param force 是否强制显示
+     * 获取玩家的真名
+     * @param sender 玩家不存在信息的接收者,可为null
+     * @param name 玩家名,不为null
+     * @return 真名,没有返回null
+     * @throws NotReadyException 表示服务还没准备好
      */
-    public static void addChat(Player p, FancyMessage msg, boolean force) {
-        CoreMain.chatManager.addChat(p, msg, force);
+    public static String getRealName(CommandSender sender, String name) throws NotReadyException {
+        return CorePlugin.instance.getRealNameManager().getRealName(sender, name);
     }
 
     /**
-     * @see RealName#getRealName(CommandSender, String)
-     */
-    public static String getRealName(CommandSender sender, String name) {
-        return RealName.getRealName(sender, name);
-    }
-
-    /**
-     * 给玩家发送信息(不重要的)<br>
-     * 玩家存在且在线时发送
-     * @param name 准确的玩家名,不为null
-     * @param msg 信息,不为null
-     * @param force 是否强制
+     * @see #sendMsg(String, FancyMessage, boolean)
      */
     public static void sendMsg(String name, String msg, boolean force) {
-        Player p = Bukkit.getServer().getPlayerExact(name);
-        if (p != null && p.isOnline()) ShowApi.tip(p, msg, force);
+        sendMsg(name, MessageApi.convert(msg), force);
     }
 
     /**
@@ -181,7 +119,7 @@ public class PlayerApi {
      */
     public static void sendMsg(String name, FancyMessage msg, boolean force) {
         Player p = Bukkit.getServer().getPlayerExact(name);
-        if (p != null && p.isOnline()) ShowApi.tip(p, msg, force);
+        if (p != null && p.isOnline()) MessageApi.send(p, msg, force);
     }
 
     /**
@@ -195,7 +133,7 @@ public class PlayerApi {
 
         Player tarP = Bukkit.getPlayerExact(tar);
         if (tarP == null) {
-            if (p != null) ShowApi.tip(p, FormatApi.get(CorePlugin.pn, 40, tar), true);
+            if (p != null) MessageApi.send(p, get(p.getName(), 40, tar), true);
             return null;
         }
         return tarP;
@@ -245,7 +183,7 @@ public class PlayerApi {
         }
     }
 
-    private static FancyMessage get(int id, Object... args) {
-        return FormatApi.get(CorePlugin.pn, id, args);
+    private static FancyMessage get(String player, int id, Object... args) {
+        return CorePlugin.instance.getLangConfig().getLang().get(player, id, args);
     }
 }

@@ -17,7 +17,11 @@ public class FancyMessageImpl implements FancyMessage,Optimizable {
 	private FancyMessageImpl(Map<Integer, FancyMessagePart> messageParts) {
 		this.messageParts = messageParts;
 	}
-	
+
+	/**
+	 * 请勿直接调用此构造器,使用MessageApi.convert(String)来代替
+	 * @see MessageApi#convert(String)
+     */
 	public FancyMessageImpl(String firstPartText) {
 		messageParts = new HashMap<>();
         then(firstPartText);

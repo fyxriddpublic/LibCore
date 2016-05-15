@@ -23,5 +23,6 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.fyxridd.lib:PacketWrapper:1.8.8" level="project" />
     <orderEntry type="module" module-name="LibConfig" scope="PROVIDED" />
     <orderEntry type="module" module-name="LibLang" scope="PROVIDED" />
+    <orderEntry type="module" module-name="LibSql" scope="PROVIDED" />
   </component>
 </module>

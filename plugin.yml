@@ -2,7 +2,7 @@
 main: com.fyxridd.lib.core.CorePlugin
 version: 0.1.0
 load: startup
-depend: [Vault, ProtocolLib, PacketWrapper, LibConfig, LibLang]
+depend: [Vault, ProtocolLib, PacketWrapper, LibConfig, LibLang, LibSql]
 softdepend:
 commands:
   f:

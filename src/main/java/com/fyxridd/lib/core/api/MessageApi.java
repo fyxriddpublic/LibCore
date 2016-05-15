@@ -27,7 +27,7 @@ public class MessageApi {
      * @see #send(Player, FancyMessage, boolean)
      */
     public static void send(Player p, String msg, boolean force) {
-        send(p, new FancyMessageImpl(msg), force);
+        send(p, convert(msg), force);
     }
 
     /**
@@ -151,41 +151,6 @@ public class MessageApi {
     }
 
     /**
-     * @see FancyMessage.MessagePart#getCon(String)
-     */
-    public static List<Condition> getCon(String s) {
-        return FancyMessage.MessagePart.getCon(s);
-    }
-
-    /**
-     * @see FancyMessage.MessagePart#convert(FancyMessage, Object...)
-     */
-    public static void convert(FancyMessage msg, Object... replace) {
-        FancyMessage.MessagePart.convert(msg, replace);
-    }
-
-    /**
-     * @see FancyMessage.MessagePart#convert(FancyMessage, java.util.HashMap)
-     */
-    public static void convert(FancyMessage msg, HashMap<String, Object> replace) {
-        FancyMessage.MessagePart.convert(msg, replace);
-    }
-
-    /**
-     * @see FancyMessage.MessagePart#convert(FancyMessage, String, Object)
-     */
-    public static void convert(FancyMessage msg, String from, Object to) {
-        FancyMessage.MessagePart.convert(msg, from, to);
-    }
-
-    /**
-     * @see FancyMessage.MessagePart#convert(FancyMessage.MessagePart, java.util.HashMap)
-     */
-    public static void convert(FancyMessage.MessagePart mp, HashMap<String, Object> replace) {
-        FancyMessage.MessagePart.convert(mp, replace);
-    }
-
-    /**
      * 将纯文字转化为FancyMessage格式
      * @param msg 纯文字
      * @return 对应的FancyMessage
@@ -203,36 +168,6 @@ public class MessageApi {
         mp.hoverActionName = name;
         mp.hoverActionData = data;
         mp.hoverActionString = hoverActionString;
-    }
-
-    /**
-     * 从plugins/plugin/show/page.yml里读取页面信息
-     * @param plugin 插件名,不为null
-     * @param page 页面名,不为null
-     * @return 页面,异常返回null
-     */
-    public static Page load(String plugin, String page) {
-        return ShowApi.load(plugin, page);
-    }
-
-    /**
-     * 读取页面信息
-     * @param plugin 插件名
-     * @param page 页面名
-     * @param config 页面信息保存的yml文件,不为null
-     * @return 页面信息,异常返回null
-     */
-    public static Page load(String plugin, String page, YamlConfiguration config) {
-        return ShowApi.load(plugin, page, config);
-    }
-
-    /**
-     * 保存页面到文件
-     * @param page 页面,不为null
-     * @return 是否成功
-     */
-    public static boolean save(Page page) {
-        return ShowApi.save(page);
     }
 
     /**

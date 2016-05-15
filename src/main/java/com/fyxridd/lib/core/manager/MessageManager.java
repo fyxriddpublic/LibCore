@@ -35,7 +35,7 @@ public class MessageManager {
                     //text
                     {
                         String text = UtilApi.convert(directConfig.getString("text", ""));
-                        if (fm == null) fm = new FancyMessageImpl(text);
+                        if (fm == null) fm = MessageApi.convert(text);
                         else fm.then(text);
                     }
                     //color
@@ -73,11 +73,11 @@ public class MessageManager {
                 }
             }
             if (!s.isEmpty()) {
-                if (fm == null) fm = new FancyMessageImpl(s);
+                if (fm == null) fm = MessageApi.convert(s);
                 else fm.then(s);
             }
         }
-        if (fm == null) fm = new FancyMessageImpl("");
+        if (fm == null) fm = MessageApi.convert("");
         return fm;
     }
 

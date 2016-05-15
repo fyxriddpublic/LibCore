@@ -194,5 +194,12 @@
             <version>[0.0.1,)</version>
             <scope>provided</scope>
         </dependency>
+        <!--LibSql-->
+        <dependency>
+            <groupId>com.fyxridd</groupId>
+            <artifactId>LibSql</artifactId>
+            <version>[0.0.1,)</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 </project>

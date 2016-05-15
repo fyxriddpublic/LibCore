@@ -9,5 +9,5 @@ public interface StringMatcher {
      * @param str 要检测的字符串
      * @return 是否匹配成功
      */
-    public boolean check(String str);
+    boolean check(String str);
 }
