@@ -229,9 +229,10 @@ public class UtilApi {
      * 如args为['set','name','Jim','Kate'],s为'{4}',则转换后的值为'Kate'
      * @param args 变量来源
      * @param s 不为null
-     * @return 转换后的值
+     * @return 转换后的值,可为空字符串不为null
      */
     public static String convertArg(String[] args, String s) {
+        if (args == null) return "";
         try {
             if (s.length() >= 3 && s.charAt(0) == '{' && s.charAt(s.length()-1) == '}') {//{...}
                 String content = s.substring(1, s.length()-1).toLowerCase();
