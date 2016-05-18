@@ -5,7 +5,8 @@ import com.fyxridd.lib.core.api.MessageApi;
 import com.fyxridd.lib.core.api.event.PlayerChatReceiveEvent;
 import com.fyxridd.lib.core.api.event.PlayerChatEvent;
 import com.fyxridd.lib.core.api.fancymessage.FancyMessage;
-import com.fyxridd.lib.lang.api.LangApi;
+import com.fyxridd.lib.core.api.lang.LangApi;
+
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.*;

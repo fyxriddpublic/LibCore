@@ -1,4 +1,4 @@
-package com.fyxridd.lib.core.manager.realname;
+package com.fyxridd.lib.core.realname;
 
 import java.io.Serializable;
 

@@ -1,7 +1,8 @@
-package com.fyxridd.lib.core.manager.realname;
+package com.fyxridd.lib.core.realname;
 
 import com.fyxridd.lib.core.CorePlugin;
-import com.fyxridd.lib.sql.api.SqlApi;
+import com.fyxridd.lib.core.api.SqlApi;
+
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.bukkit.Bukkit;

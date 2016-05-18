@@ -7,7 +7,8 @@ import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.EnumWrappers;
 import com.fyxridd.lib.core.CorePlugin;
 import com.fyxridd.lib.core.api.fancymessage.FancyMessage;
-import com.fyxridd.lib.core.manager.realname.NotReadyException;
+import com.fyxridd.lib.core.realname.NotReadyException;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
@@ -184,6 +185,6 @@ public class PlayerApi {
     }
 
     private static FancyMessage get(String player, int id, Object... args) {
-        return CorePlugin.instance.getLangConfig().getLang().get(player, id, args);
+        return CorePlugin.instance.getCoreConfig().getLang().get(player, id, args);
     }
 }

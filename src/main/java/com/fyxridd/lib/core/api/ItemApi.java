@@ -1,7 +1,7 @@
 package com.fyxridd.lib.core.api;
 
+import com.fyxridd.lib.core.CorePlugin;
 import com.fyxridd.lib.core.api.event.FixDamageEvent;
-import com.fyxridd.lib.core.api.fancymessage.FancyMessage;
 import com.fyxridd.lib.core.api.nbt.AttributeStorage;
 import com.fyxridd.lib.core.api.nbt.Attributes;
 
@@ -97,7 +97,7 @@ public class ItemApi {
      * @return 修正后的物品,可能与原来的相同或不同
      */
     public static ItemStack fixDamage(ItemStack is) {
-        Integer damage = CoreMain.fixDamage.get(is.getTypeId());
+        Integer damage = CorePlugin.instance.getCoreConfig().getFixDamage().get(is.getTypeId());
         if (damage != null && damage > 0) {//物品本身是有伤害的,需要检测
             //解析
             Attributes.Attribute a = null;
@@ -137,9 +137,5 @@ public class ItemApi {
 
         //返回
         return is;
-    }
-
-    private static FancyMessage get(int id, Object... args) {
-        return FormatApi.get(CorePlugin.pn, id, args);
     }
 }

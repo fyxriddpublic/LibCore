@@ -110,14 +110,14 @@ public class MessageApi {
         return CraftItemStack.asNMSCopy(is).save(new NBTTagCompound()).toString();
     }
 
-    public static void color(FancyMessage.MessagePart mp, final ChatColor color) {
+    public static void color(FancyMessagePart mp, final ChatColor color) {
         if (!color.isColor()) {
             throw new IllegalArgumentException(color.name() + " is not a color");
         }
         mp.color = color;
     }
 
-    public static void style(FancyMessage.MessagePart mp, final ChatColor... styles) {
+    public static void style(FancyMessagePart mp, final ChatColor... styles) {
         for (final ChatColor style : styles) {
             if (!style.isFormat()) {
                 throw new IllegalArgumentException(style.name() + " is not a style");
@@ -126,27 +126,27 @@ public class MessageApi {
         mp.styles = styles;
     }
 
-    public static void file(FancyMessage.MessagePart mp, final String path) {
+    public static void file(FancyMessagePart mp, final String path) {
         onClick(mp, "open_file", path);
     }
 
-    public static void link(FancyMessage.MessagePart mp, final String url) {
+    public static void link(FancyMessagePart mp, final String url) {
         onClick(mp, "open_url", url);
     }
 
-    public static void suggest(FancyMessage.MessagePart mp, final String command) {
+    public static void suggest(FancyMessagePart mp, final String command) {
         onClick(mp, "suggest_command", command);
     }
 
-    public static void command(FancyMessage.MessagePart mp, final String command) {
+    public static void command(FancyMessagePart mp, final String command) {
         onClick(mp, "run_command", command);
     }
 
-    public static void itemTooltip(FancyMessage.MessagePart mp, final String itemJSON, final String hoverActionString) {
+    public static void itemTooltip(FancyMessagePart mp, final String itemJSON, final String hoverActionString) {
         onHover(mp, "show_item", itemJSON, hoverActionString);
     }
 
-    public static void itemTooltip(FancyMessage.MessagePart mp, final ItemStack itemStack, final String hoverActionString) {
+    public static void itemTooltip(FancyMessagePart mp, final ItemStack itemStack, final String hoverActionString) {
         itemTooltip(mp, CraftItemStack.asNMSCopy(itemStack).save(new NBTTagCompound()).toString(), hoverActionString);
     }
 
@@ -159,12 +159,12 @@ public class MessageApi {
         return new FancyMessageImpl(msg);
     }
 
-    private static void onClick(FancyMessage.MessagePart mp, final String name, final String data) {
+    private static void onClick(FancyMessagePart mp, final String name, final String data) {
         mp.clickActionName = name;
         mp.clickActionData = data;
     }
 
-    private static void onHover(FancyMessage.MessagePart mp, final String name, final String data, final String hoverActionString) {
+    private static void onHover(FancyMessagePart mp, final String name, final String data, final String hoverActionString) {
         mp.hoverActionName = name;
         mp.hoverActionData = data;
         mp.hoverActionString = hoverActionString;

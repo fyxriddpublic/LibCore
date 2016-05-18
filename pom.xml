@@ -180,24 +180,10 @@
             <version>1.8.8</version>
             <scope>provided</scope>
         </dependency>
-        <!--LibConfig-->
+        <!--LibChatShow-->
         <dependency>
             <groupId>com.fyxridd</groupId>
-            <artifactId>LibConfig</artifactId>
-            <version>[0.0.1,)</version>
-            <scope>provided</scope>
-        </dependency>
-        <!--LibLang-->
-        <dependency>
-            <groupId>com.fyxridd</groupId>
-            <artifactId>LibLang</artifactId>
-            <version>[0.0.1,)</version>
-            <scope>provided</scope>
-        </dependency>
-        <!--LibSql-->
-        <dependency>
-            <groupId>com.fyxridd</groupId>
-            <artifactId>LibSql</artifactId>
+            <artifactId>LibChatShow</artifactId>
             <version>[0.0.1,)</version>
             <scope>provided</scope>
         </dependency>

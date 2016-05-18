@@ -1,4 +1,4 @@
-package com.fyxridd.lib.core.manager.realname;
+package com.fyxridd.lib.core.realname;
 
 /**
  * 代表服务还没准备好

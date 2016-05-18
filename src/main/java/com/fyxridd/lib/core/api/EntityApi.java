@@ -7,6 +7,9 @@ import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.BlockPosition;
 import com.comphenix.protocol.wrappers.WrappedBlockData;
 import com.fyxridd.lib.core.api.hashList.HashList;
+import com.fyxridd.lib.core.api.inter.Pos;
+import com.fyxridd.lib.core.api.inter.Range;
+
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -154,9 +157,5 @@ public class EntityApi {
         v.setX(v.getX() / length);
         v.setZ(v.getZ()/length);
         entity.setVelocity(v);
-    }
-
-    private static FancyMessage get(int id, Object... args) {
-        return FormatApi.get(CorePlugin.pn, id, args);
     }
 }

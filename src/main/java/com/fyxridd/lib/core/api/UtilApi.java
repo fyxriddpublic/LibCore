@@ -1,6 +1,8 @@
 package com.fyxridd.lib.core.api;
 
+import com.fyxridd.lib.core.CorePlugin;
 import com.fyxridd.lib.core.MD5;
+import com.fyxridd.lib.core.api.fancymessage.FancyMessage;
 import com.fyxridd.lib.core.api.hashList.HashList;
 import com.fyxridd.lib.core.api.inter.LastType;
 import com.fyxridd.lib.core.api.inter.StringMatcher;
@@ -377,7 +379,7 @@ public class UtilApi {
             long seconds = last/SECONDS;
             last -= seconds*SECONDS;
             long milli = last;
-            return get(55, day, hour, minute, seconds, milli).getText();
+            return get(null, 55, day, hour, minute, seconds, milli).getText();
         }else if (type.equals(LastType.Seconds)) {
             long day = last/DAY;
             last -= day*DAY;
@@ -386,21 +388,21 @@ public class UtilApi {
             long minute = last/MINUTE;
             last -= minute*MINUTE;
             long seconds = last/SECONDS;
-            return get(60, day, hour, minute, seconds).getText();
+            return get(null, 60, day, hour, minute, seconds).getText();
         }else if (type.equals(LastType.Minute)) {
             long day = last/DAY;
             last -= day*DAY;
             long hour = last/HOUR;
             last -= hour*HOUR;
             long minute = last/MINUTE;
-            return get(65, day, hour, minute).getText();
+            return get(null, 65, day, hour, minute).getText();
         }else if (type.equals(LastType.HourMinuteSeconds)) {
             long hour = last/HOUR;
             last -= hour*HOUR;
             long minute = last/MINUTE;
             last -= minute*MINUTE;
             long seconds = last/SECONDS;
-            return get(67, hour, minute, seconds).getText();
+            return get(null, 67, hour, minute, seconds).getText();
         }else return "";
     }
 
@@ -808,7 +810,7 @@ public class UtilApi {
         backward.put(value, key);
     }
 
-    private static FancyMessage get(int id, Object... args) {
-        return FormatApi.get(CorePlugin.pn, id, args);
+    private static FancyMessage get(String player, int id, Object... args) {
+        return CorePlugin.instance.getCoreConfig().getLang().get(player, id, args);
     }
 }

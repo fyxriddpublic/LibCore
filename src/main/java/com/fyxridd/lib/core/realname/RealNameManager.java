@@ -1,9 +1,10 @@
-package com.fyxridd.lib.core.manager.realname;
+package com.fyxridd.lib.core.realname;
 
 import com.fyxridd.lib.core.CorePlugin;
 import com.fyxridd.lib.core.api.MessageApi;
 import com.fyxridd.lib.core.api.event.FirstJoinEvent;
 import com.fyxridd.lib.core.api.fancymessage.FancyMessage;
+
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -119,7 +120,7 @@ public class RealNameManager {
         return result;
     }
 
-    private FancyMessage get(String player, int id, Object... args) {
-        return CorePlugin.instance.getLangConfig().getLang().get(player, id, args);
+    private static FancyMessage get(String player, int id, Object... args) {
+        return CorePlugin.instance.getCoreConfig().getLang().get(player, id, args);
     }
 }
