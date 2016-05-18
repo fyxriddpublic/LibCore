@@ -12,6 +12,7 @@ import java.io.*;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.nio.charset.Charset;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -63,6 +64,21 @@ public class UtilApi {
     }
 
     /**
+     * 获取Field的值(即使Field私有也可以)
+     */
+    public static Object getField(Field field, Object obj) {
+        boolean access = field.isAccessible();
+        field.setAccessible(true);
+        try {
+            return field.get(obj);
+        } catch (IllegalAccessException e) {
+            return null;
+        } finally {
+            field.setAccessible(access);
+        }
+    }
+
+    /**
      * 设置Field的值(即使Field私有也可以)
      */
     public static void setField(Field field, Object obj, Object value) {
@@ -74,6 +90,21 @@ public class UtilApi {
             e.printStackTrace();
         }
         field.setAccessible(access);
+    }
+
+    /**
+     * 获取Method的值(即使Method私有也可以)
+     */
+    public static Object getMethod(Method method, Object obj, Object... args) {
+        boolean access = method.isAccessible();
+        method.setAccessible(true);
+        try {
+            return method.invoke(obj, args);
+        } catch (Exception e) {
+            return null;
+        } finally {
+            method.setAccessible(access);
+        }
     }
 
     /**
