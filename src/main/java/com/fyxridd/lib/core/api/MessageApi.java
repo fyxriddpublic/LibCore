@@ -10,6 +10,7 @@ import com.fyxridd.lib.core.api.fancymessage.FancyMessagePart;
 import com.fyxridd.lib.core.fancymessage.FancyMessageImpl;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.MemorySection;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -19,10 +20,17 @@ import org.json.JSONException;
 import org.json.JSONStringer;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
 import java.util.Map;
 
 public class MessageApi {
+    /**
+     * 发送信息
+     */
+    public static void sendGraceful(CommandSender sender, FancyMessage msg, boolean force) {
+        if (sender instanceof Player) send((Player) sender, msg, force);
+        else sender.sendMessage(msg.getText());
+    }
+
     /**
      * @see #send(Player, FancyMessage, boolean)
      */
