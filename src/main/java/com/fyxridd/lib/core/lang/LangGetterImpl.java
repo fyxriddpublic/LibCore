@@ -30,7 +30,7 @@ public class LangGetterImpl implements LangGetter{
 
     @Override
     public FancyMessage get(int id, Object... args) {
-        return getLang(CorePlugin.instance.getCoreConfig().getDefaultLang(), id, args);
+        return getLang(CorePlugin.instance.getCoreConfig().getLangConfigDefault(), id, args);
     }
 
     /**
@@ -51,7 +51,7 @@ public class LangGetterImpl implements LangGetter{
 
         //默认
         if (result == null) {
-            String defaultLang = CorePlugin.instance.getCoreConfig().getDefaultLang();
+            String defaultLang = CorePlugin.instance.getCoreConfig().getLangConfigDefault();
             if (defaultLang.equals(lang)) return null;//要读取的语言就是默认的语言
             Map<Integer, FancyMessage> map = langs.get(defaultLang);
             if (map != null) result = map.get(id);

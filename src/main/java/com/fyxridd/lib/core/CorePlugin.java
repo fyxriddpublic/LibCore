@@ -13,11 +13,7 @@ import com.fyxridd.lib.core.config.LimitManager;
 import com.fyxridd.lib.core.config.PipeManager;
 import com.fyxridd.lib.core.lang.LangManager;
 import com.fyxridd.lib.core.lang.PlayerManager;
-import com.fyxridd.lib.core.manager.EnterBlockTypeManager;
-import com.fyxridd.lib.core.manager.RealDamageManager;
-import com.fyxridd.lib.core.manager.SqlManager;
-import com.fyxridd.lib.core.manager.SyncChatManager;
-import com.fyxridd.lib.core.manager.TimeManager;
+import com.fyxridd.lib.core.manager.*;
 import com.fyxridd.lib.core.realname.RealNameManager;
 
 import org.bukkit.Bukkit;
@@ -37,6 +33,7 @@ public class CorePlugin extends SimplePlugin{
     private CoreConfig coreConfig;
 
     private SqlManager sqlManager;
+    private LogManager logManager;
     private PlayerManager playerManager;
     private LangManager langManager;
     private RealNameManager realNameManager;
@@ -84,6 +81,7 @@ public class CorePlugin extends SimplePlugin{
 
         //初始化
         sqlManager = new SqlManager();
+        logManager = new LogManager();
         playerManager = new PlayerManager();
         langManager = new LangManager();
         realNameManager = new RealNameManager();
@@ -172,6 +170,10 @@ public class CorePlugin extends SimplePlugin{
 
     public ConfigManager getConfigManager() {
         return configManager;
+    }
+
+    public LogManager getLogManager() {
+        return logManager;
     }
 
     private static FancyMessage get(String player, int id, Object... args) {

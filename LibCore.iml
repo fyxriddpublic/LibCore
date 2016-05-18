@@ -11,6 +11,9 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="LibConfig" scope="PROVIDED" />
+    <orderEntry type="module" module-name="LibLang" scope="PROVIDED" />
+    <orderEntry type="module" module-name="LibSql" scope="PROVIDED" />
     <orderEntry type="library" name="Maven: com.google.guava:guava:19.0" level="project" />
     <orderEntry type="library" name="Maven: org.json:json:20140107" level="project" />
     <orderEntry type="library" name="Maven: com.fyxridd.lib:expressionJ:1.0.0" level="project" />
@@ -21,8 +24,6 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.fyxridd.lib:Vault:1.8.8" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.fyxridd.lib:ProtocolLib:1.8.8" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.fyxridd.lib:PacketWrapper:1.8.8" level="project" />
-    <orderEntry type="module" module-name="LibConfig" scope="PROVIDED" />
-    <orderEntry type="module" module-name="LibLang" scope="PROVIDED" />
-    <orderEntry type="module" module-name="LibSql" scope="PROVIDED" />
+    <orderEntry type="module" module-name="LibChatShow" scope="PROVIDED" />
   </component>
 </module>
