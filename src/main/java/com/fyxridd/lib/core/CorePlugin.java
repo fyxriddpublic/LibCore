@@ -23,8 +23,8 @@ import org.bukkit.entity.Player;
 
 public class CorePlugin extends SimplePlugin{
     public static CorePlugin instance;
-    private ProtocolManager protocolManager;
     public static boolean libChatShowHook;
+    private ProtocolManager protocolManager;
 
     private GenerateManager generateManager;
     private ConfigManager configManager;
