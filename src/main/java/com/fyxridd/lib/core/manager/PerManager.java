@@ -3,9 +3,13 @@ package com.fyxridd.lib.core.manager;
 import com.fyxridd.lib.core.CoreConfig;
 import com.fyxridd.lib.core.CorePlugin;
 import com.fyxridd.lib.core.api.PerApi;
+import com.fyxridd.lib.core.api.PlayerApi;
 import com.fyxridd.lib.core.api.config.ConfigApi;
+import com.fyxridd.lib.core.api.fancymessage.FancyMessage;
 import com.fyxridd.lib.core.config.ConfigManager;
+
 import net.milkbowl.vault.permission.Permission;
+
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.RegisteredServiceProvider;
 
@@ -39,5 +43,17 @@ public class PerManager {
      */
     public boolean has(String name, String per) {
         return isEnable() && this.per.has(config.getPermissionDefaultWorld(), name, per);
+    }
+
+    public boolean checkHasPer(String name, String per) {
+        if (!has(name, per)) {
+            PlayerApi.sendMsg(name, get(name, 10, per), true);
+            return false;
+        }
+        return true;
+    }
+    
+    private FancyMessage get(String player, int id, Object... args) {
+        return config.getLang().get(player, id, args);
     }
 }
