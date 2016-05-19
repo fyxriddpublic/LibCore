@@ -1,0 +1,43 @@
+package com.fyxridd.lib.core.manager;
+
+import com.fyxridd.lib.core.CoreConfig;
+import com.fyxridd.lib.core.CorePlugin;
+import com.fyxridd.lib.core.api.PerApi;
+import com.fyxridd.lib.core.api.config.ConfigApi;
+import com.fyxridd.lib.core.config.ConfigManager;
+import net.milkbowl.vault.permission.Permission;
+import org.bukkit.Bukkit;
+import org.bukkit.plugin.RegisteredServiceProvider;
+
+public class PerManager {
+    private Permission per;
+
+    private CoreConfig config;
+
+    public PerManager() {
+        //权限
+        RegisteredServiceProvider<Permission> permissionProvider = Bukkit.getServicesManager().getRegistration(Permission.class);
+        if (permissionProvider != null) per = permissionProvider.getProvider();
+        //添加配置监听
+        ConfigApi.addListener(CorePlugin.instance.pn, CoreConfig.class, new ConfigManager.Setter<CoreConfig>() {
+            @Override
+            public void set(CoreConfig value) {
+                config = value;
+            }
+        });
+    }
+
+    /**
+     * @see PerApi#isEnable()
+     */
+    public boolean isEnable() {
+        return per != null;
+    }
+
+    /**
+     * @see PerApi#has(String, String)
+     */
+    public boolean has(String name, String per) {
+        return isEnable() && this.per.has(config.getPermissionDefaultWorld(), name, per);
+    }
+}

@@ -41,6 +41,7 @@ public class CorePlugin extends SimplePlugin{
     private EnterBlockTypeManager enterBlockTypeManager;
     private RealDamageManager realDamageManager;
     private TimeManager timeManager;
+    private PerManager perManager;
 
     @Override
     public void onLoad() {
@@ -89,6 +90,7 @@ public class CorePlugin extends SimplePlugin{
         enterBlockTypeManager = new EnterBlockTypeManager();
         realDamageManager = new RealDamageManager();
         timeManager = new TimeManager();
+        perManager = new PerManager();
 
         super.onEnable();
     }
@@ -166,6 +168,10 @@ public class CorePlugin extends SimplePlugin{
 
     public TimeManager getTimeManager() {
         return timeManager;
+    }
+
+    public PerManager getPerManager() {
+        return perManager;
     }
 
     public ConfigManager getConfigManager() {

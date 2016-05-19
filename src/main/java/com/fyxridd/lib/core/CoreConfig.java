@@ -67,6 +67,10 @@ public class CoreConfig {
     //玩家真名
     private boolean realNameLimitEnable;
 
+    //权限默认世界
+    @Path("permission.defaultWorld")
+    private String permissionDefaultWorld;
+
     public String getLangConfigDefault() {
         return langConfigDefault;
     }
@@ -97,5 +101,9 @@ public class CoreConfig {
 
     public String getLogPrefix() {
         return logPrefix;
+    }
+
+    public String getPermissionDefaultWorld() {
+        return permissionDefaultWorld;
     }
 }
