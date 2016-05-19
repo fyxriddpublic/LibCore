@@ -105,25 +105,6 @@ public class PlayerApi {
     }
 
     /**
-     * @see #sendMsg(String, FancyMessage, boolean)
-     */
-    public static void sendMsg(String name, String msg, boolean force) {
-        sendMsg(name, MessageApi.convert(msg), force);
-    }
-
-    /**
-     * 给玩家发送信息(不重要的)<br>
-     * 玩家存在且在线时发送
-     * @param name 准确的玩家名,不为null
-     * @param msg 信息,不为null
-     * @param force 是否强制
-     */
-    public static void sendMsg(String name, FancyMessage msg, boolean force) {
-        Player p = Bukkit.getServer().getPlayerExact(name);
-        if (p != null && p.isOnline()) MessageApi.send(p, msg, force);
-    }
-
-    /**
      * 检测玩家是否在线,不在线时会进行提示
      * @param p 玩家,可为null(null时不会进行提示)
      * @param tar (精确的)目标玩家名,可为null(null时不会进行提示并且返回null)

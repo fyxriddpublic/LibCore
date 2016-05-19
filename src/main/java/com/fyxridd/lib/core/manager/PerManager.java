@@ -2,8 +2,8 @@ package com.fyxridd.lib.core.manager;
 
 import com.fyxridd.lib.core.CoreConfig;
 import com.fyxridd.lib.core.CorePlugin;
+import com.fyxridd.lib.core.api.MessageApi;
 import com.fyxridd.lib.core.api.PerApi;
-import com.fyxridd.lib.core.api.PlayerApi;
 import com.fyxridd.lib.core.api.config.ConfigApi;
 import com.fyxridd.lib.core.api.fancymessage.FancyMessage;
 import com.fyxridd.lib.core.config.ConfigManager;
@@ -47,7 +47,7 @@ public class PerManager {
 
     public boolean checkHasPer(String name, String per) {
         if (!has(name, per)) {
-            PlayerApi.sendMsg(name, get(name, 10, per), true);
+            MessageApi.send(name, get(name, 10, per), true);
             return false;
         }
         return true;

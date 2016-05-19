@@ -25,32 +25,43 @@ import java.util.Map;
 public class MessageApi {
     /**
      * 发送信息
-     */
-    public static void sendGraceful(CommandSender sender, FancyMessage msg, boolean force) {
-        if (sender instanceof Player) send((Player) sender, msg, force);
-        else sender.sendMessage(msg.getText());
-    }
-
-    /**
-     * @see #send(Player, FancyMessage, boolean)
-     */
-    public static void send(Player p, String msg, boolean force) {
-        send(p, convert(msg), force);
-    }
-
-    /**
-     * 向玩家发送FancyMessage
-     * 会发出玩家提示事件
-     * @param p 玩家
-     * @param msg 信息
      * @param force 是否强制显示
      */
-    public static void send(Player p, FancyMessage msg, boolean force) {
-        //发出玩家显示聊天信息事件
-        PlayerTipEvent playerTipEvent = new PlayerTipEvent(p, msg, force);
-        Bukkit.getPluginManager().callEvent(playerTipEvent);
+    public static void send(CommandSender sender, FancyMessage msg, boolean force) {
+        if (sender instanceof Player) {
+            Player p = (Player) sender;
+            //发出玩家显示聊天信息事件
+            PlayerTipEvent playerTipEvent = new PlayerTipEvent(p, msg, force);
+            Bukkit.getPluginManager().callEvent(playerTipEvent);
 
-        if (!playerTipEvent.isCancelled()) sendChatPacket(p, msg);
+            if (!playerTipEvent.isCancelled()) sendChatPacket(p, msg);
+        }else sender.sendMessage(msg.getText());
+    }
+
+    /**
+     * @see #send(CommandSender, FancyMessage, boolean)
+     */
+    public static void send(CommandSender sender, String msg, boolean force) {
+        send(sender, convert(msg), force);
+    }
+
+    /**
+     * 给玩家发送信息(不重要的)<br>
+     * 玩家存在且在线时发送
+     * @param player 准确的玩家名,不为null
+     * @param msg 信息,不为null
+     * @param force 是否强制
+     */
+    public static void send(String player, FancyMessage msg, boolean force) {
+        Player p = Bukkit.getServer().getPlayerExact(player);
+        if (p != null && p.isOnline()) send(p, msg, force);
+    }
+
+    /**
+     * @see #send(String, FancyMessage, boolean)
+     */
+    public static void send(String player, String msg, boolean force) {
+        send(player, convert(msg), force);
     }
 
     /**
