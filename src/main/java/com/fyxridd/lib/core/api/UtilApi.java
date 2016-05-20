@@ -23,6 +23,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class UtilApi {
+    private static final Pattern paramsPattern = Pattern.compile("\\{([\\w]+)\\}");
     private static Random random = new Random();
 
     public static final long SECONDS = 1000;
@@ -65,6 +66,20 @@ public class UtilApi {
         return (unwrapped == null) ? type : unwrapped;
     }
 
+    /**
+     * 获取变量名集合
+     * 变量名在字符串中都以'{变量名}'的格式存在(变量名可使用字符为a-zA-Z0-9_)
+     * @return 返回的变量名不包含{},不为null可为空列表
+     */
+    public static Set<String> getParams(String s) {
+        Set<String> result = new HashSet<>();
+        if (s != null) {
+            Matcher matcher = paramsPattern.matcher(s);
+            while (matcher.find()) result.add(matcher.group(1));
+        }
+        return result;
+    }
+    
     /**
      * 获取Field的值(即使Field私有也可以)
      */
