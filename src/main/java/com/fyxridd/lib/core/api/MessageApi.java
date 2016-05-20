@@ -5,6 +5,7 @@ import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.fyxridd.lib.core.CorePlugin;
 import com.fyxridd.lib.core.api.event.PlayerTipEvent;
+import com.fyxridd.lib.core.api.fancymessage.Convertable;
 import com.fyxridd.lib.core.api.fancymessage.FancyMessage;
 import com.fyxridd.lib.core.api.fancymessage.FancyMessagePart;
 import com.fyxridd.lib.core.fancymessage.FancyMessageImpl;
@@ -20,9 +21,30 @@ import org.json.JSONException;
 import org.json.JSONStringer;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class MessageApi {
+    /**
+     * 发送信息
+     * @param force 是否强制显示
+     */
+    public static void send(CommandSender sender, List<FancyMessage> msgs, boolean force) {
+        if (sender instanceof Player) {
+            Player p = (Player) sender;
+            //发出玩家显示聊天信息事件
+            PlayerTipEvent playerTipEvent = new PlayerTipEvent(p, msgs, force);
+            Bukkit.getPluginManager().callEvent(playerTipEvent);
+
+            if (!playerTipEvent.isCancelled()) {
+                for (FancyMessage msg:msgs) sendChatPacket(p, msg);
+            }
+        }else {
+            for (FancyMessage msg: msgs) sender.sendMessage(msg.getText());
+        }
+    }
+
     /**
      * 发送信息
      * @param force 是否强制显示
@@ -118,6 +140,32 @@ public class MessageApi {
 
     public static String getHoverActionData(String line) {
         return makeMultilineTooltip(line.split("\n"));
+    }
+
+    /**
+     * 转换变量(如果无法转换则不会转换)
+     * @see Convertable#convert(Object...)
+     * @param msg 信息
+     * @param replace 变量
+     */
+    public static void convert(FancyMessage msg, Object... replace) {
+        for (FancyMessagePart mp:msg.getMessageParts().values()) mp.convert(replace);
+    }
+
+    /**
+     * 转换单个变量(如果无法转换则不会转换)
+     * @see Convertable#convert(String, Object)
+     */
+    public static void convert(FancyMessage msg, String from, String to) {
+        for (FancyMessagePart mp:msg.getMessageParts().values()) mp.convert(from, to);
+    }
+
+    /**
+     * 转换变量(如果无法转换则不会转换)
+     * @see Convertable#convert(Map)
+     */
+    public static void convert(FancyMessage msg, HashMap<String, Object> replace) {
+        for (FancyMessagePart mp:msg.getMessageParts().values()) mp.convert(replace);
     }
 
     /**

@@ -6,6 +6,8 @@ import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
+import java.util.List;
+
 /**
  * 玩家提示事件
  * 给玩家发送聊天栏提示时,会发出此事件
@@ -16,13 +18,13 @@ public class PlayerTipEvent extends Event implements Cancellable{
     private static final HandlerList handlers = new HandlerList();
 
     private Player p;
-    private FancyMessage msg;
+    private List<FancyMessage> msgs;
     private boolean force;
     private boolean cancelled;
 
-    public PlayerTipEvent(Player p, FancyMessage msg, boolean force) {
+    public PlayerTipEvent(Player p, List<FancyMessage> msgs, boolean force) {
         this.p = p;
-        this.msg = msg;
+        this.msgs = msgs;
         this.force = force;
     }
 
@@ -33,8 +35,8 @@ public class PlayerTipEvent extends Event implements Cancellable{
     /**
      * 提示信息
      */
-    public FancyMessage getMsg() {
-        return msg;
+    public List<FancyMessage> getMsgs() {
+        return msgs;
     }
 
     public boolean isForce() {
