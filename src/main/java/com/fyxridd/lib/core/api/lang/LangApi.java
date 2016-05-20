@@ -28,6 +28,14 @@ public class LangApi {
     }
 
     /**
+     * 获取指定插件的语言
+     * @return 不存在返回null
+     */
+    public static LangGetter getPluginLang(String plugin) {
+        return CorePlugin.instance.getLangManager().getPluginLang(plugin);
+    }
+
+    /**
      * 获取玩家使用的语言
      * @return null表示没有选择语言(即使用默认语言)
      */

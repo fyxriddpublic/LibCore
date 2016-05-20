@@ -2,6 +2,7 @@ package com.fyxridd.lib.core.lang;
 
 import com.fyxridd.lib.core.CorePlugin;
 import com.fyxridd.lib.core.api.CoreApi;
+import com.fyxridd.lib.core.api.MessageApi;
 import com.fyxridd.lib.core.api.UtilApi;
 import com.fyxridd.lib.core.api.fancymessage.FancyMessage;
 import com.fyxridd.lib.core.api.lang.LangGetter;
@@ -58,7 +59,7 @@ public class LangGetterImpl implements LangGetter{
         }
 
         //转换变量
-        if (result != null) LangManager.convertArgs(result, args);
+        if (result != null) MessageApi.convert(result, args);
 
         //返回
         return result;

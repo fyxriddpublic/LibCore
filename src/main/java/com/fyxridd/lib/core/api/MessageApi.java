@@ -21,7 +21,6 @@ import org.json.JSONException;
 import org.json.JSONStringer;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -164,7 +163,7 @@ public class MessageApi {
      * 转换变量(如果无法转换则不会转换)
      * @see Convertable#convert(Map)
      */
-    public static void convert(FancyMessage msg, HashMap<String, Object> replace) {
+    public static void convert(FancyMessage msg, Map<String, Object> replace) {
         for (FancyMessagePart mp:msg.getMessageParts().values()) mp.convert(replace);
     }
 
