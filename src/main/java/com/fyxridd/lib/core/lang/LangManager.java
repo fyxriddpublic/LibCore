@@ -21,7 +21,7 @@ public class LangManager implements Listener {
     private Map<String, LangGetter> langs = new HashMap<>();
 
     public static FancyMessage load(String msg, ConfigurationSection config) throws Exception {
-        if (CorePlugin.libChatShowHook) return ShowApi.load(msg, config);
+        if (CorePlugin.libChatShowHook) return ShowApi.loadFancyMessage(msg, config);
         else return MessageApi.load(msg, config);
     }
 
