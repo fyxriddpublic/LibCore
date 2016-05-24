@@ -5,12 +5,6 @@ load: startup
 depend: [Vault, ProtocolLib, PacketWrapper]
 softdepend: [LibChatShow]
 commands:
-  f:
-    description: FuncManager
-    usage: /<command> ?
-  s:
-    description: InputManager
-    usage: /<command> ?
   stop:
     description: none
     usage: /<command> ?
