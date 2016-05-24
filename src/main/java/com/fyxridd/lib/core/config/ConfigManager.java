@@ -3,6 +3,7 @@ package com.fyxridd.lib.core.config;
 import com.fyxridd.lib.core.CorePlugin;
 import com.fyxridd.lib.core.api.CoreApi;
 import com.fyxridd.lib.core.api.UtilApi;
+import com.fyxridd.lib.core.api.config.Setter;
 import com.fyxridd.lib.core.api.config.basic.Config;
 import com.fyxridd.lib.core.api.config.basic.ListHelper;
 import com.fyxridd.lib.core.api.config.basic.Path;
@@ -35,17 +36,6 @@ import java.util.*;
  * 读取配置管理
  */
 public class ConfigManager {
-    /**
-     * 设置器
-     */
-    public interface Setter<T> {
-        /**
-         * 在值需要更新时调用(需要注意的是,可能会被额外多次调用)
-         * @param t 新值
-         */
-        void set(T t);
-    }
-
     /**
      * 配置上下文
      */

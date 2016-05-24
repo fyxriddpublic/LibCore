@@ -3,6 +3,7 @@ package com.fyxridd.lib.core;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import com.fyxridd.lib.core.api.CoreApi;
+import com.fyxridd.lib.core.api.config.Setter;
 import com.fyxridd.lib.core.api.plugin.SimplePlugin;
 import com.fyxridd.lib.core.api.config.ConfigApi;
 import com.fyxridd.lib.core.api.event.ServerCloseEvent;
@@ -73,7 +74,7 @@ public class CorePlugin extends SimplePlugin{
         //注册配置对象
         ConfigApi.register(pn, CoreConfig.class);
         //添加配置监听
-        ConfigApi.addListener(pn, CoreConfig.class, new ConfigManager.Setter<CoreConfig>() {
+        ConfigApi.addListener(pn, CoreConfig.class, new Setter<CoreConfig>() {
             @Override
             public void set(CoreConfig value) {
                 coreConfig = value;

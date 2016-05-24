@@ -1,7 +1,6 @@
 package com.fyxridd.lib.core.api.config;
 
 import com.fyxridd.lib.core.CorePlugin;
-import com.fyxridd.lib.core.config.ConfigManager.Setter;
 
 /**
  * 读取配置Api

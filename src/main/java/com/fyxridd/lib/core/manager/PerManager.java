@@ -5,8 +5,8 @@ import com.fyxridd.lib.core.CorePlugin;
 import com.fyxridd.lib.core.api.MessageApi;
 import com.fyxridd.lib.core.api.PerApi;
 import com.fyxridd.lib.core.api.config.ConfigApi;
+import com.fyxridd.lib.core.api.config.Setter;
 import com.fyxridd.lib.core.api.fancymessage.FancyMessage;
-import com.fyxridd.lib.core.config.ConfigManager;
 
 import net.milkbowl.vault.permission.Permission;
 
@@ -23,7 +23,7 @@ public class PerManager {
         RegisteredServiceProvider<Permission> permissionProvider = Bukkit.getServicesManager().getRegistration(Permission.class);
         if (permissionProvider != null) per = permissionProvider.getProvider();
         //添加配置监听
-        ConfigApi.addListener(CorePlugin.instance.pn, CoreConfig.class, new ConfigManager.Setter<CoreConfig>() {
+        ConfigApi.addListener(CorePlugin.instance.pn, CoreConfig.class, new Setter<CoreConfig>() {
             @Override
             public void set(CoreConfig value) {
                 config = value;
