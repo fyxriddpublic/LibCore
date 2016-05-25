@@ -21,6 +21,7 @@ import org.json.JSONException;
 import org.json.JSONStringer;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -49,14 +50,7 @@ public class MessageApi {
      * @param force 是否强制显示
      */
     public static void send(CommandSender sender, FancyMessage msg, boolean force) {
-        if (sender instanceof Player) {
-            Player p = (Player) sender;
-            //发出玩家显示聊天信息事件
-            PlayerTipEvent playerTipEvent = new PlayerTipEvent(p, msg, force);
-            Bukkit.getPluginManager().callEvent(playerTipEvent);
-
-            if (!playerTipEvent.isCancelled()) sendChatPacket(p, msg);
-        }else sender.sendMessage(msg.getText());
+        send(sender, Collections.singletonList(msg), force);
     }
 
     /**
