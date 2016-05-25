@@ -45,6 +45,9 @@ public class PerManager {
         return isEnable() && this.per.has(config.getPermissionDefaultWorld(), name, per);
     }
 
+    /**
+     * @see PerApi#checkHasPer(String, String)
+     */
     public boolean checkHasPer(String name, String per) {
         if (!has(name, per)) {
             MessageApi.send(name, get(name, 10, per), true);
@@ -52,7 +55,21 @@ public class PerManager {
         }
         return true;
     }
-    
+
+    /**
+     * @see PerApi#add(String, String)
+     */
+    public boolean add(String name, String per) {
+        return this.per.playerAdd(config.getPermissionDefaultWorld(), name, per);
+    }
+
+    /**
+     * @see PerApi#del(String, String)
+     */
+    public boolean del(String name, String per) {
+        return this.per.playerRemove(config.getPermissionDefaultWorld(), name, per);
+    }
+
     private FancyMessage get(String player, int id, Object... args) {
         return config.getLang().get(player, id, args);
     }

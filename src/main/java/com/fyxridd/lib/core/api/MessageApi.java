@@ -21,6 +21,7 @@ import org.json.JSONException;
 import org.json.JSONStringer;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -50,7 +51,9 @@ public class MessageApi {
      * @param force 是否强制显示
      */
     public static void send(CommandSender sender, FancyMessage msg, boolean force) {
-        send(sender, Collections.singletonList(msg), force);
+        List<FancyMessage> list = new ArrayList<>();
+        list.add(msg);
+        send(sender, list, force);
     }
 
     /**

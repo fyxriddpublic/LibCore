@@ -1,6 +1,7 @@
 package com.fyxridd.lib.core.api;
 
 import com.fyxridd.lib.core.CorePlugin;
+import org.bukkit.entity.Player;
 
 public class PerApi {
     /**
@@ -22,5 +23,21 @@ public class PerApi {
      */
     public static boolean checkHasPer(String name, String per) {
         return CorePlugin.instance.getPerManager().checkHasPer(name, per);
+    }
+
+    /**
+     * 添加权限
+     * @return 是否添加成功
+     */
+    public static boolean add(String name, String per) {
+        return CorePlugin.instance.getPerManager().add(name, per);
+    }
+
+    /**
+     * 删除权限
+     * @return 是否删除成功
+     */
+    public static boolean del(String name, String per) {
+        return CorePlugin.instance.getPerManager().del(name, per);
     }
 }
