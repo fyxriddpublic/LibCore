@@ -71,6 +71,10 @@ public class CoreConfig {
     @Path("permission.defaultWorld")
     private String permissionDefaultWorld;
 
+    //经济默认世界
+    @Path("eco.defaultWorld")
+    private String ecoDefaultWorld;
+
     public String getLangConfigDefault() {
         return langConfigDefault;
     }
@@ -105,5 +109,9 @@ public class CoreConfig {
 
     public String getPermissionDefaultWorld() {
         return permissionDefaultWorld;
+    }
+
+    public String getEcoDefaultWorld() {
+        return ecoDefaultWorld;
     }
 }

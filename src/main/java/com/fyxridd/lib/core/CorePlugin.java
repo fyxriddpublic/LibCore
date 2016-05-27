@@ -43,6 +43,7 @@ public class CorePlugin extends SimplePlugin{
     private RealDamageManager realDamageManager;
     private TimeManager timeManager;
     private PerManager perManager;
+    private EcoManager ecoManager;
 
     @Override
     public void onLoad() {
@@ -92,6 +93,7 @@ public class CorePlugin extends SimplePlugin{
         realDamageManager = new RealDamageManager();
         timeManager = new TimeManager();
         perManager = new PerManager();
+        ecoManager = new EcoManager();
 
         super.onEnable();
     }
@@ -173,6 +175,10 @@ public class CorePlugin extends SimplePlugin{
 
     public PerManager getPerManager() {
         return perManager;
+    }
+
+    public EcoManager getEcoManager() {
+        return ecoManager;
     }
 
     public ConfigManager getConfigManager() {

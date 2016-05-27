@@ -117,6 +117,8 @@ realName:
 permission:
   defaultWorld: "world"      #Vault插件使用的默认世界
 
+eco:
+  defaultWorld: "world"      #Vault插件使用的默认世界
 #################################
 #####         配置          #####
 #################################
