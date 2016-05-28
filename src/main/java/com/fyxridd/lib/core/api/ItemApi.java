@@ -204,26 +204,26 @@ public class ItemApi {
 
     /**
      * 不检测小id
-     * @see #hasNormalItem(org.bukkit.inventory.Inventory, int, int, int)
+     * @see #hasNormalItem(org.bukkit.inventory.Inventory, Material, int, int)
      */
-    public static boolean hasNormalItem(Inventory inv,int id,int amount) {
-        return hasNormalItem(inv, id, -1, amount);
+    public static boolean hasNormalItem(Inventory inv,Material type,int amount) {
+        return hasNormalItem(inv, type, -1, amount);
     }
 
     /**
      * 检测容器中是否有指定数量的'普通'物品(ItemMeta为空)
      * @param inv 容器,不为null
-     * @param id 物品id
+     * @param type 物品类型
      * @param smallId 物品小id,-1表示不检测小id
      * @param amount 物品数量
      * @return 是否含有指定数量的物品
      */
-    public static boolean hasNormalItem(Inventory inv, int id, int smallId, int amount) {
+    public static boolean hasNormalItem(Inventory inv, Material type, int smallId, int amount) {
         //之所以不调用getNormalAmount是为了提高效率!
         int sum = 0;
         for (ItemStack is:inv.getContents()) {
             if (is != null &&
-                    is.getTypeId() == id &&
+                    is.getType() == type &&
                     (smallId == -1 || is.getDurability() == smallId) &&
                     isItemMetaEmpty(is.getItemMeta())) {
                 sum += is.getAmount();
@@ -263,28 +263,28 @@ public class ItemApi {
 
     /**
      * 不检测小id
-     * @see #removeNormalItem(org.bukkit.inventory.Inventory, int, int, int, boolean)
+     * @see #removeNormalItem(org.bukkit.inventory.Inventory, Material, int, int, boolean)
      */
-    public static boolean removeNormalItem(Inventory inv, int id, int amount, boolean force) {
-        return removeNormalItem(inv, id, -1, amount, force);
+    public static boolean removeNormalItem(Inventory inv, Material type, int amount, boolean force) {
+        return removeNormalItem(inv, type, -1, amount, force);
     }
 
     /**
      * 从指定容器中移除指定数量的'普通'物品(ItemMeta为空)
      * @param inv 容器,不为null
-     * @param id 物品id
+     * @param type 物品类型
      * @param smallId 物品小id,-1表示不检测小id
      * @param amount 要移除的数量
      * @param force 如果容器中物品数量不足,是否移除已经拥有的
      * @return 如果容器中没有指定数量的指定物品,返回false
      */
-    public static boolean removeNormalItem(Inventory inv, int id, int smallId, int amount, boolean force) {
+    public static boolean removeNormalItem(Inventory inv, Material type, int smallId, int amount, boolean force) {
         if (amount <= 0) return true;
-        if (hasNormalItem(inv, id, smallId, amount)) {
+        if (hasNormalItem(inv, type, smallId, amount)) {
             for (int i=0;i<inv.getSize();i++) {
                 if (inv.getItem(i) != null){
                     ItemStack is = inv.getItem(i);
-                    if (is.getTypeId() == id && (smallId == -1 || is.getDurability() == smallId) && isItemMetaEmpty(is.getItemMeta())) {
+                    if (is.getType() == type && (smallId == -1 || is.getDurability() == smallId) && isItemMetaEmpty(is.getItemMeta())) {
                         if (amount >= is.getAmount()) {
                             amount -= is.getAmount();
                             inv.setItem(i, null);
@@ -301,7 +301,7 @@ public class ItemApi {
             for (int i=0;i<inv.getSize();i++) {
                 if (inv.getItem(i) != null){
                     ItemStack is = inv.getItem(i);
-                    if (is.getTypeId() == id && (smallId == -1 || is.getDurability() == smallId) && isItemMetaEmpty(is.getItemMeta())) {
+                    if (is.getType() == type && (smallId == -1 || is.getDurability() == smallId) && isItemMetaEmpty(is.getItemMeta())) {
                         if (amount >= is.getAmount()) {
                             amount -= is.getAmount();
                             inv.setItem(i, null);
