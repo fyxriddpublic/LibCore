@@ -4,7 +4,7 @@ import com.fyxridd.lib.core.CorePlugin;
 
 public class EcoApi {
     /**
-     * 权限是否有效
+     * 经济是否有效
      */
     public static boolean isEnable() {
         return CorePlugin.instance.getEcoManager().isEnable();
@@ -18,18 +18,25 @@ public class EcoApi {
     }
     
     /**
-     * 添加权限
-     * @return 是否添加成功
+     * 增加金币
+     * @return 是否增加成功
      */
     public static boolean add(String name, double amount) {
         return CorePlugin.instance.getEcoManager().add(name, amount);
     }
 
     /**
-     * 删除权限
-     * @return 是否删除成功
+     * 减少金币
+     * @return 是否减少成功
      */
     public static boolean del(String name, double amount) {
         return CorePlugin.instance.getEcoManager().del(name, amount);
+    }
+
+    /**
+     * 设置金币
+     */
+    public static boolean set(String name, double amount) {
+        return CorePlugin.instance.getEcoManager().set(name, amount);
     }
 }

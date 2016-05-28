@@ -55,4 +55,16 @@ public class EcoManager {
     public boolean del(String name, double amount) {
         return isEnable() && eco.withdrawPlayer(config.getEcoDefaultWorld(), name, amount).transactionSuccess();
     }
+
+    /**
+     * @see com.fyxridd.lib.core.api.EcoApi#set(String, double)
+     */
+    public boolean set(String name, double amount) {
+        if (!isEnable()) return false;
+
+        double has = get(name);
+        if (amount == has) return true;
+        else if (amount > has) return add(name, amount-has);
+        else return del(name, has-amount);
+    }
 }
