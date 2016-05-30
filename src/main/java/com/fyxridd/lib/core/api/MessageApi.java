@@ -13,8 +13,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.MemorySection;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.json.JSONException;
@@ -22,7 +20,6 @@ import org.json.JSONStringer;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -169,24 +166,21 @@ public class MessageApi {
      * @param is 物品,不为null
      * @return 提示信息
      */
-    public static String getHoverActionData(ItemStack is) {
-        return CraftItemStack.asNMSCopy(is).save(new NBTTagCompound()).toString();
+    public static String getHoverActionData(ItemStack is) {//todo
+        return null;
+//        return CraftItemStack.asNMSCopy(is).save(new NBTTagCompound()).toString();
     }
 
     public static void color(FancyMessagePart mp, final ChatColor color) {
-        if (!color.isColor()) {
-            throw new IllegalArgumentException(color.name() + " is not a color");
-        }
-        mp.color = color;
+        if (!color.isColor()) throw new IllegalArgumentException(color.name() + " is not a color");
+        mp.setColor(color);
     }
 
     public static void style(FancyMessagePart mp, final ChatColor... styles) {
         for (final ChatColor style : styles) {
-            if (!style.isFormat()) {
-                throw new IllegalArgumentException(style.name() + " is not a style");
-            }
+            if (!style.isFormat()) throw new IllegalArgumentException(style.name() + " is not a style");
         }
-        mp.styles = styles;
+        mp.setStyles(styles);
     }
 
     public static void file(FancyMessagePart mp, final String path) {
@@ -209,8 +203,9 @@ public class MessageApi {
         onHover(mp, "show_item", itemJSON, hoverActionString);
     }
 
-    public static void itemTooltip(FancyMessagePart mp, final ItemStack itemStack, final String hoverActionString) {
-        itemTooltip(mp, CraftItemStack.asNMSCopy(itemStack).save(new NBTTagCompound()).toString(), hoverActionString);
+    public static void itemTooltip(FancyMessagePart mp, final ItemStack itemStack, final String hoverActionString) {//todo
+        return;
+//        itemTooltip(mp, CraftItemStack.asNMSCopy(itemStack).save(new NBTTagCompound()).toString(), hoverActionString);
     }
 
     /**
@@ -223,45 +218,13 @@ public class MessageApi {
     }
 
     private static void onClick(FancyMessagePart mp, final String name, final String data) {
-        mp.clickActionName = name;
-        mp.clickActionData = data;
+        mp.setClickActionName(name);
+        mp.setClickActionData(data);
     }
 
     private static void onHover(FancyMessagePart mp, final String name, final String data, final String hoverActionString) {
-        mp.hoverActionName = name;
-        mp.hoverActionData = data;
-        mp.hoverActionString = hoverActionString;
-    }
-
-    /**
-     * 保存信息为字符串
-     * @param msg 可为null(null时返回null)
-     * @return 可为null
-     */
-    public static String save(FancyMessage msg) {
-        if (msg == null) return null;
-
-        //保存到config
-        YamlConfiguration config = new YamlConfiguration();
-        FormatApi.save(1, config, msg);
-        return config.saveToString();
-    }
-
-    /**
-     * 从字符串中读取信息
-     * @param data 可为null(null时返回null)
-     * @return 可为null
-     */
-    public static FancyMessage load(String data) {
-        if (data == null) return null;
-
-        YamlConfiguration config = new YamlConfiguration();
-        try {
-            config.loadFromString(data);
-            return FormatApi.load(config.getString("show-1"), (MemorySection) config.get("info-1"));
-        } catch (Exception e) {
-            return null;
-        }
+        mp.setHoverActionName(name);
+        mp.setHoverActionData(data);
     }
 
     /**
@@ -269,7 +232,7 @@ public class MessageApi {
      * @param config 可为null
      * @return 不为null
      */
-    public static FancyMessage load(String msg, ConfigurationSection config) {
-        return CorePlugin.instance.getCoreManager().getMessageManager().load(msg, config);
+    public static FancyMessage load(String msg, ConfigurationSection config) throws Exception {
+        return CorePlugin.instance.getMessageManager().load(msg, config);
     }
 }

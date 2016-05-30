@@ -24,6 +24,5 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.fyxridd.lib:Vault:1.8.8" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.fyxridd.lib:ProtocolLib:1.8.8" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.fyxridd.lib:PacketWrapper:1.8.8" level="project" />
-    <orderEntry type="module" module-name="LibChatShow" scope="PROVIDED" />
   </component>
 </module>

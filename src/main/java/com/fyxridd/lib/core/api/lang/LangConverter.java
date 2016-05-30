@@ -11,7 +11,7 @@ import com.fyxridd.lib.core.lang.LangGetterImpl;
  */
 public class LangConverter implements ConfigConvert.ConfigConverter<LangGetter>{
     @Override
-    public LangGetter convert(String plugin, ConfigurationSection config) throws Exception {
+    public LangGetter convert(String plugin, ConfigurationSection config) {
         LangGetter lang = new LangGetterImpl(plugin, config);
         CorePlugin.instance.getLangManager().onLangLoad(plugin, lang);
         return lang;

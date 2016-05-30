@@ -17,15 +17,17 @@ public class RealDamageManager {
 		Bukkit.getPluginManager().registerEvent(EntityDamageByEntityEvent.class, CorePlugin.instance, EventPriority.MONITOR, new EventExecutor() {
             @Override
             public void execute(Listener listener, Event e) throws EventException {
-                EntityDamageByEntityEvent event = (EntityDamageByEntityEvent) e;
-                //无伤害
-                if (event.getEntity() instanceof LivingEntity) {
-                    LivingEntity le = (LivingEntity) event.getEntity();
-                    if (le.getNoDamageTicks() > le.getMaximumNoDamageTicks()/2 &&
-                            event.getDamage() <= le.getLastDamage()) return;
+                if (e instanceof EntityDamageByEntityEvent) {
+                    EntityDamageByEntityEvent event = (EntityDamageByEntityEvent) e;
+                    //无伤害
+                    if (event.getEntity() instanceof LivingEntity) {
+                        LivingEntity le = (LivingEntity) event.getEntity();
+                        if (le.getNoDamageTicks() > le.getMaximumNoDamageTicks()/2 &&
+                                event.getDamage() <= le.getLastDamage()) return;
+                    }
+                    //发出真实伤害事件
+                    Bukkit.getPluginManager().callEvent(new RealDamageEvent(event));
                 }
-                //发出真实伤害事件
-                Bukkit.getPluginManager().callEvent(new RealDamageEvent(event));
             }
         }, CorePlugin.instance, true);
 	}

@@ -58,12 +58,13 @@ public class EntityApi {
      * @return 保存的数据,可能为null
      */
     public static String getData(LivingEntity le, UUID uid) {
-        EntityLiving el = ((CraftLivingEntity) le).getHandle();
-        AttributeInstance ai = el.getAttributeInstance(GenericAttributes.maxHealth);
-        if (ai == null) return null;
-        AttributeModifier am = ai.a(uid);
-        if (am == null) return null;
-        else return am.b();
+        return null;
+//        EntityLiving el = ((CraftLivingEntity) le).getHandle();
+//        AttributeInstance ai = el.getAttributeInstance(GenericAttributes.maxHealth);
+//        if (ai == null) return null;
+//        AttributeModifier am = ai.a(uid);
+//        if (am == null) return null;
+//        else return am.b();
     }
 
     /**
@@ -74,19 +75,20 @@ public class EntityApi {
      * @return 是否成功
      */
     public static boolean setData(LivingEntity le, UUID uid, String data) {
-        try {
-            EntityLiving el = ((CraftLivingEntity) le).getHandle();
-            AttributeInstance ai = el.getAttributeInstance(GenericAttributes.maxHealth);
-            if (ai == null) return false;
-            AttributeModifier am = new AttributeModifier(uid, data, 0, 0);
-            //先删旧的(没有也不会出错)
-            ai.c(am);
-            //再添加新的
-            ai.b(am);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
+        return false;
+//        try {
+//            EntityLiving el = ((CraftLivingEntity) le).getHandle();
+//            AttributeInstance ai = el.getAttributeInstance(GenericAttributes.maxHealth);
+//            if (ai == null) return false;
+//            AttributeModifier am = new AttributeModifier(uid, data, 0, 0);
+//            //先删旧的(没有也不会出错)
+//            ai.c(am);
+//            //再添加新的
+//            ai.b(am);
+//            return true;
+//        } catch (Exception e) {
+//            return false;
+//        }
     }
 
     /**

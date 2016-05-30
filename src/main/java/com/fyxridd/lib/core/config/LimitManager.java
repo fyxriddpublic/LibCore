@@ -27,7 +27,7 @@ public class LimitManager {
         //注册限制
 
         //Max
-        AnalysisApi.registerLimit(Max.class, new Limit<Max>() {
+        register(Max.class, new Limit<Max>() {
             @Override
             public void limit(Class wrappedConfigClass, Field field, Object value, Max max) throws Exception {
                 if (Number.class.isAssignableFrom(wrappedConfigClass)) {
@@ -38,7 +38,7 @@ public class LimitManager {
         });
 
         //Min
-        AnalysisApi.registerLimit(Min.class, new Limit<Min>() {
+        register(Min.class, new Limit<Min>() {
             @Override
             public void limit(Class wrappedConfigClass, Field field, Object value, Min min) throws Exception {
                 if (Number.class.isAssignableFrom(wrappedConfigClass)) {
@@ -49,7 +49,7 @@ public class LimitManager {
         });
 
         //DoubleMax
-        AnalysisApi.registerLimit(DoubleMax.class, new Limit<DoubleMax>() {
+        register(DoubleMax.class, new Limit<DoubleMax>() {
             @Override
             public void limit(Class wrappedConfigClass, Field field, Object value, DoubleMax doubleMax) throws Exception {
                 if (Number.class.isAssignableFrom(wrappedConfigClass)) {
@@ -60,7 +60,7 @@ public class LimitManager {
         });
 
         //DoubleMin
-        AnalysisApi.registerLimit(DoubleMin.class, new Limit<DoubleMin>() {
+        register(DoubleMin.class, new Limit<DoubleMin>() {
             @Override
             public void limit(Class wrappedConfigClass, Field field, Object value, DoubleMin doubleMin) throws Exception {
                 if (Number.class.isAssignableFrom(wrappedConfigClass)) {
@@ -71,7 +71,7 @@ public class LimitManager {
         });
 
         //MaxLength
-        AnalysisApi.registerLimit(MaxLength.class, new Limit<MaxLength>() {
+        register(MaxLength.class, new Limit<MaxLength>() {
             @Override
             public void limit(Class wrappedConfigClass, Field field, Object value, MaxLength maxLength) throws Exception {
                 if (String.class.isAssignableFrom(wrappedConfigClass)) {
@@ -82,7 +82,7 @@ public class LimitManager {
         });
 
         //MinLength
-        AnalysisApi.registerLimit(MinLength.class, new Limit<MinLength>() {
+        register(MinLength.class, new Limit<MinLength>() {
             @Override
             public void limit(Class wrappedConfigClass, Field field, Object value, MinLength minLength) throws Exception {
                 if (String.class.isAssignableFrom(wrappedConfigClass)) {
@@ -93,7 +93,7 @@ public class LimitManager {
         });
 
         //Pattern
-        AnalysisApi.registerLimit(Pattern.class, new Limit<Pattern>() {
+        register(Pattern.class, new Limit<Pattern>() {
             @Override
             public void limit(Class wrappedConfigClass, Field field, Object value, Pattern pattern) throws Exception {
                 if (String.class.isAssignableFrom(wrappedConfigClass)) {
@@ -105,7 +105,7 @@ public class LimitManager {
         });
 
         //CustomLimit
-        AnalysisApi.registerLimit(CustomLimit.class, new Limit<CustomLimit>() {
+        register(CustomLimit.class, new Limit<CustomLimit>() {
             @Override
             public void limit(Class wrappedConfigClass, Field field, Object value, CustomLimit customLimit) throws Exception {
                 CustomLimit.Limiter limiter = UtilApi.newInstance(customLimit.value());

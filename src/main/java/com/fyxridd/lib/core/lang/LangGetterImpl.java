@@ -6,7 +6,6 @@ import com.fyxridd.lib.core.api.MessageApi;
 import com.fyxridd.lib.core.api.UtilApi;
 import com.fyxridd.lib.core.api.fancymessage.FancyMessage;
 import com.fyxridd.lib.core.api.lang.LangGetter;
-
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -17,7 +16,7 @@ import java.util.Map;
 public class LangGetterImpl implements LangGetter{
     private Map<String, Map<Integer, FancyMessage>> langs = new HashMap<>();
 
-    public LangGetterImpl(String plugin, ConfigurationSection config) throws Exception {
+    public LangGetterImpl(String plugin, ConfigurationSection config) {
         Map<String, String> result = new HashMap<>();
         Map<String, Object> map = config.getValues(true);
         for (Map.Entry<String, Object> entry:map.entrySet()) result.put(entry.getKey(), (String) entry.getValue());
@@ -69,23 +68,17 @@ public class LangGetterImpl implements LangGetter{
      * 读取所有的语言配置
      * @param map '语言名 语言文件(相对路径,相对于此插件的配置文件目录)'
      */
-    private void loadLangs(String plugin, Map<String, String> map) throws Exception {
+    private void loadLangs(String plugin, Map<String, String> map) {
         File parentFolder = new File(CoreApi.pluginPath, plugin);
-        for (Map.Entry<String, String> entry:map.entrySet()) {
-            String lang = entry.getKey();
-            String langFilePath = entry.getValue();
-            File langFile = new File(parentFolder, langFilePath);
-            loadLang(lang, langFile);
-        }
+        for (Map.Entry<String, String> entry:map.entrySet()) loadLang(entry.getKey(), new File(parentFolder, entry.getValue()));
     }
 
-    private void loadLang(String lang, File langFile) throws Exception {
-        YamlConfiguration config = new YamlConfiguration();
-        config.load(langFile);
-        loadLang(lang, config);
+    private void loadLang(String lang, File langFile) {
+        YamlConfiguration config = UtilApi.loadConfigByUTF8(langFile);
+        if (config != null) loadLang(lang, config);
     }
 
-    private void loadLang(String lang, ConfigurationSection config) throws Exception {
+    private void loadLang(String lang, ConfigurationSection config){
         //hash
         HashMap<Integer, FancyMessage> hash = new HashMap<>();
         //读取语言
@@ -94,7 +87,12 @@ public class LangGetterImpl implements LangGetter{
             if (ss.length == 2 && ss[0].equalsIgnoreCase("show")) {
                 int id = Integer.parseInt(ss[1]);
                 String msg = UtilApi.convert(config.getString(key));
-                hash.put(id, LangManager.load(msg, (ConfigurationSection) config.get("info-" + id)));
+                try {
+                    hash.put(id, MessageApi.load(msg, (ConfigurationSection) config.get("info-" + id)));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    //忽略此条目
+                }
             }
         }
         //添加

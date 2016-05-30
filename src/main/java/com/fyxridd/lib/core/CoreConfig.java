@@ -15,7 +15,7 @@ import com.fyxridd.lib.core.api.lang.LangConverter;
 import com.fyxridd.lib.core.api.lang.LangGetter;
 
 public class CoreConfig {
-    private class FixDamageConverter implements ListConverter<Map<Integer, Integer>> {
+    private static class FixDamageConverter implements ListConverter<Map<Integer, Integer>> {
         @Override
         public Map<Integer, Integer> convert(String plugin, List list) {
             Map<Integer, Integer> map = new HashMap<>();
@@ -28,7 +28,7 @@ public class CoreConfig {
         }
     }
 
-    private class DateFormatConverter implements PrimeConvert.PrimeConverter<String, SimpleDateFormat> {
+    private static class DateFormatConverter implements PrimeConvert.PrimeConverter<String, SimpleDateFormat> {
         @Override
         public SimpleDateFormat convert(String plugin, String from) {
             return new SimpleDateFormat(from);

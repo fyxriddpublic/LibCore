@@ -1,6 +1,5 @@
 package com.fyxridd.lib.core.config;
 
-import com.fyxridd.lib.core.api.config.AnalysisApi;
 import com.fyxridd.lib.core.api.config.pipe.Color;
 import com.fyxridd.lib.core.api.config.pipe.LowerCase;
 import com.fyxridd.lib.core.api.config.pipe.Pipe;
@@ -19,7 +18,7 @@ public class PipeManager {
         //注册管道
 
         //Color
-        AnalysisApi.registerPipe(Color.class, new Pipe<Color>() {
+        register(Color.class, new Pipe<Color>() {
             @Override
             public Object pipe(Class wrappedConfigClass, Field field, Object value, Color color) {
                 if (String.class.isAssignableFrom(wrappedConfigClass)) return UtilApi.convert((String) value);
@@ -28,7 +27,7 @@ public class PipeManager {
         });
 
         //UpperCase
-        AnalysisApi.registerPipe(UpperCase.class, new Pipe<UpperCase>() {
+        register(UpperCase.class, new Pipe<UpperCase>() {
             @Override
             public Object pipe(Class wrappedConfigClass, Field field, Object value, UpperCase upperCase) {
                 if (String.class.isAssignableFrom(wrappedConfigClass)) return ((String) value).toUpperCase();
@@ -37,7 +36,7 @@ public class PipeManager {
         });
 
         //LowerCase
-        AnalysisApi.registerPipe(LowerCase.class, new Pipe<LowerCase>() {
+        register(LowerCase.class, new Pipe<LowerCase>() {
             @Override
             public Object pipe(Class wrappedConfigClass, Field field, Object value, LowerCase lowerCase) {
                 if (String.class.isAssignableFrom(wrappedConfigClass)) return ((String) value).toLowerCase();

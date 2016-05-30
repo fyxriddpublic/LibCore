@@ -3,7 +3,6 @@ main: com.fyxridd.lib.core.CorePlugin
 version: 0.1.0
 load: startup
 depend: [Vault, ProtocolLib, PacketWrapper]
-softdepend: [LibChatShow]
 commands:
   stop:
     description: none

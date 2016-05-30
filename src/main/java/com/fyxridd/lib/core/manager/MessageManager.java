@@ -2,8 +2,9 @@ package com.fyxridd.lib.core.manager;
 
 import com.fyxridd.lib.core.api.MessageApi;
 import com.fyxridd.lib.core.api.UtilApi;
+import com.fyxridd.lib.core.api.event.LoadFancyMessageEvent;
 import com.fyxridd.lib.core.api.fancymessage.FancyMessage;
-import com.fyxridd.lib.core.fancymessage.FancyMessageImpl;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 
@@ -17,10 +18,17 @@ public class MessageManager {
     public static final String CLICK_SUGGEST = "suggest";
     public static final String CLICK_CMD = "cmd";
 
+
     /**
      * @see MessageApi#load(String, ConfigurationSection)
      */
     public FancyMessage load(String msg, ConfigurationSection config) {
+        LoadFancyMessageEvent event = new LoadFancyMessageEvent(msg, config, load_(msg, config));
+        Bukkit.getPluginManager().callEvent(event);
+        return event.getResult();
+    }
+
+    private FancyMessage load_(String msg, ConfigurationSection config) {
         String[] ss = split(msg);
         FancyMessage fm = null;
         boolean first = true;

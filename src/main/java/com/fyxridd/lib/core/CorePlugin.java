@@ -24,19 +24,20 @@ import org.bukkit.entity.Player;
 
 public class CorePlugin extends SimplePlugin{
     public static CorePlugin instance;
-    public static boolean libChatShowHook;
     private ProtocolManager protocolManager;
 
     private GenerateManager generateManager;
     private ConfigManager configManager;
     private LimitManager limitManager;
     private PipeManager pipeManager;
+    private LangManager langManager;
+
     private CoreConfig coreConfig;
 
-    private SqlManager sqlManager;
+    private MessageManager messageManager;
     private LogManager logManager;
+    private SqlManager sqlManager;
     private PlayerManager playerManager;
-    private LangManager langManager;
     private RealNameManager realNameManager;
     private SyncChatManager syncChatManager;
     private EnterBlockTypeManager enterBlockTypeManager;
@@ -47,11 +48,14 @@ public class CorePlugin extends SimplePlugin{
 
     @Override
     public void onLoad() {
+        instance = this;
         CoreApi.serverPath = System.getProperty("user.dir");
         CoreApi.pluginPath = getFile().getParentFile().getAbsolutePath();
         CoreApi.serverVer = CoreApi.getMcVersion(Bukkit.getServer());
 
         protocolManager = ProtocolLibrary.getProtocolManager();
+        generateManager = new GenerateManager();
+        logManager = new LogManager();
 
         super.onLoad();
     }
@@ -59,18 +63,11 @@ public class CorePlugin extends SimplePlugin{
     //启动插件
     @Override
     public void onEnable() {
-        instance = this;
-        try {
-            Class.forName("com.fyxridd.lib.show.chat.ShowPlugin");
-            libChatShowHook = true;
-        }catch (Exception e) {
-            libChatShowHook = false;
-        }
-
-        generateManager = new GenerateManager();
+        messageManager = new MessageManager();
         configManager = new ConfigManager();
         limitManager = new LimitManager();
         pipeManager = new PipeManager();
+        langManager = new LangManager();
         
         //注册配置对象
         ConfigApi.register(pn, CoreConfig.class);
@@ -84,9 +81,7 @@ public class CorePlugin extends SimplePlugin{
 
         //初始化
         sqlManager = new SqlManager();
-        logManager = new LogManager();
         playerManager = new PlayerManager();
-        langManager = new LangManager();
         realNameManager = new RealNameManager();
         syncChatManager = new SyncChatManager();
         enterBlockTypeManager = new EnterBlockTypeManager();
@@ -112,6 +107,7 @@ public class CorePlugin extends SimplePlugin{
         if (cmd.getName().equalsIgnoreCase("stop")) {
             if (sender instanceof Player && !sender.isOp()) return true;
             //先T人
+            //(默认使用/stop命令停止服务器有个问题,就是玩家退出不会触发PlayerQuitEvent)
             for (Player p:Bukkit.getOnlinePlayers()) p.kickPlayer(get(p.getName(), 70).getText());
             //发出关服事件
             Bukkit.getPluginManager().callEvent(new ServerCloseEvent());
@@ -147,6 +143,10 @@ public class CorePlugin extends SimplePlugin{
 
     public GenerateManager getGenerateManager() {
         return generateManager;
+    }
+
+    public MessageManager getMessageManager() {
+        return messageManager;
     }
 
     public CoreConfig getCoreConfig() {

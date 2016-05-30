@@ -92,7 +92,7 @@
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${env.183_PLUGINS}</outputDirectory>
+                            <outputDirectory>${env.MC_PLUGINS}</outputDirectory>
                             <resources>
                                 <resource>
                                     <directory>${basedir}/target</directory>
@@ -178,13 +178,6 @@
             <groupId>com.fyxridd.lib</groupId>
             <artifactId>PacketWrapper</artifactId>
             <version>1.8.8</version>
-            <scope>provided</scope>
-        </dependency>
-        <!--LibChatShow-->
-        <dependency>
-            <groupId>com.fyxridd</groupId>
-            <artifactId>LibChatShow</artifactId>
-            <version>[0.0.1,)</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

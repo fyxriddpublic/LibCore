@@ -319,6 +319,7 @@ public class ConfigManager {
             for (Setter setter:context.getSetter()) setter.set(configInstance);
             return true;
         } catch (Exception e) {
+            e.printStackTrace();
             //用户(服主)看的
             LogApi.log(LOG_TO_USER, Level.SEVERE, "load instance of configClass '"+context.getConfigClass().getName()+"' error: "+e.getMessage());
             //程序员看的
@@ -329,8 +330,6 @@ public class ConfigManager {
     }
 
     private Configuration loadConfig(String plugin, String fileName) throws Exception{
-        Configuration config= new YamlConfiguration();
-        ((YamlConfiguration)config).load(new File(new File(CoreApi.pluginPath, plugin), fileName));
-        return config;
+        return UtilApi.loadConfigByUTF8(new File(new File(CoreApi.pluginPath, plugin), fileName));
     }
 }

@@ -232,21 +232,21 @@ public class GenerateManager implements Listener {
     private Map<String, List<GenerateContext>> generates = new HashMap<>();
 
     /**
-     * @see com.fyxridd.lib.config.api.GenerateApi#registerFileToFile(String, File, String, String, String)
+     * @see com.fyxridd.lib.core.api.config.GenerateApi#registerFileToFile(String, File, String, String, String)
      */
     public void registerFileToFile(String pluginName, File pluginFile, String dataFolder, String srcFile, String tarFile) {
         register(new FileToFileGenerateContext(pluginName, pluginFile, dataFolder, srcFile, tarFile));
     }
 
     /**
-     * @see com.fyxridd.lib.config.api.GenerateApi#registerFileToDir(String, File, String, String, String)
+     * @see com.fyxridd.lib.core.api.config.GenerateApi#registerFileToDir(String, File, String, String, String)
      */
     public void registerFileToDir(String pluginName, File pluginFile, String dataFolder, String srcFile, String tarDir) {
         register(new FileToDirGenerateContext(pluginName, pluginFile, dataFolder, srcFile, tarDir));
     }
 
     /**
-     * @see com.fyxridd.lib.config.api.GenerateApi#registerDirToDir(String, File, String, String, String)
+     * @see com.fyxridd.lib.core.api.config.GenerateApi#registerDirToDir(String, File, String, String, String)
      */
     public void registerDirToDir(String pluginName, File pluginFile, String dataFolder, String srcDir, String tarDir) {
         register(new DirToDirGenerateContext(pluginName, pluginFile, dataFolder, srcDir, tarDir));

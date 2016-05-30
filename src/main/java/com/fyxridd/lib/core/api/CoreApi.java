@@ -9,7 +9,6 @@ import com.comphenix.protocol.wrappers.WrappedBlockData;
 import com.fyxridd.lib.core.CorePlugin;
 import com.fyxridd.lib.core.Tps;
 import com.fyxridd.lib.core.api.fancymessage.FancyMessage;
-import com.fyxridd.lib.core.fancymessage.FancyMessageImpl;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -295,22 +294,22 @@ public class CoreApi {
      * @param effect 是否有闪电效果(着火)
      * @param silent 是否安静(无声音)
      */
-    public static void strikeLightning(Location loc, int range, boolean effect, boolean silent) {
-        CraftWorld cw = (CraftWorld)loc.getWorld();
-        net.minecraft.server.v1_8_R3.World w = cw.getHandle();
-        EntityLightning lightning = new EntityLightning(w, loc.getX(), loc.getY(), loc.getZ(), !effect);
-        PacketPlayOutSpawnEntityWeather pc = new PacketPlayOutSpawnEntityWeather(lightning);
-        PacketPlayOutNamedSoundEffect pc1 = new PacketPlayOutNamedSoundEffect("random.explode", loc.getX(), loc.getY(), loc.getZ(), 2f, 0f);
-        PacketPlayOutNamedSoundEffect pc2 = new PacketPlayOutNamedSoundEffect("ambient.weather.thunder", loc.getX(), loc.getY(), loc.getZ(), 2f, 0f);
-        for (Player p:loc.getWorld().getPlayers()) {
-            if (p.getLocation().distance(loc) < range) {
-                ((CraftPlayer) p).getHandle().playerConnection.sendPacket(pc);
-                if (!silent) {
-                    ((CraftPlayer) p).getHandle().playerConnection.sendPacket(pc1);
-                    ((CraftPlayer) p).getHandle().playerConnection.sendPacket(pc2);
-                }
-            }
-        }
+    public static void strikeLightning(Location loc, int range, boolean effect, boolean silent) {//todo
+//        CraftWorld cw = (CraftWorld)loc.getWorld();
+//        net.minecraft.server.v1_8_R3.World w = cw.getHandle();
+//        EntityLightning lightning = new EntityLightning(w, loc.getX(), loc.getY(), loc.getZ(), !effect);
+//        PacketPlayOutSpawnEntityWeather pc = new PacketPlayOutSpawnEntityWeather(lightning);
+//        PacketPlayOutNamedSoundEffect pc1 = new PacketPlayOutNamedSoundEffect("random.explode", loc.getX(), loc.getY(), loc.getZ(), 2f, 0f);
+//        PacketPlayOutNamedSoundEffect pc2 = new PacketPlayOutNamedSoundEffect("ambient.weather.thunder", loc.getX(), loc.getY(), loc.getZ(), 2f, 0f);
+//        for (Player p:loc.getWorld().getPlayers()) {
+//            if (p.getLocation().distance(loc) < range) {
+//                ((CraftPlayer) p).getHandle().playerConnection.sendPacket(pc);
+//                if (!silent) {
+//                    ((CraftPlayer) p).getHandle().playerConnection.sendPacket(pc1);
+//                    ((CraftPlayer) p).getHandle().playerConnection.sendPacket(pc2);
+//                }
+//            }
+//        }
     }
 
     /**
