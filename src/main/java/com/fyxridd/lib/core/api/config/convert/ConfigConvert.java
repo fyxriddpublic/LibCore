@@ -15,7 +15,7 @@ import java.lang.annotation.Target;
 public @interface ConfigConvert {
     /**
      * 转换器
-     * 实现类必须有个空的构造器
+     * 实现类必须有个空的构造器,如果是内部类则必须是静态的
      */
     interface ConfigConverter<T> {
         T convert(String plugin, ConfigurationSection config) throws Exception;
