@@ -253,8 +253,7 @@ public class GenerateManager implements Listener {
     }
 
     /**
-     * 生成文件
-     * @param override 是否覆盖
+     * @see com.fyxridd.lib.core.api.config.GenerateApi#generate(String, boolean)
      */
     public void generate(String plugin, boolean override) {
         List<GenerateContext> list = generates.get(plugin);

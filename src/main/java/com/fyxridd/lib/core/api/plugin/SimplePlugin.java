@@ -26,7 +26,10 @@ public class SimplePlugin extends JavaPlugin implements Listener{
         dataPath = CoreApi.pluginPath + File.separator + pn;
         ver = CoreApi.getPluginVersion(file);
 
+        //注册文件生成
         GenerateApi.registerDirToDir(pn, file, dataPath, "resources", "");
+        //生成文件
+        GenerateApi.generate(pn, false);
     }
 
     @Override

@@ -34,4 +34,12 @@ public class GenerateApi {
     public static void registerDirToDir(String pluginName, File pluginFile, String dataFolder, String srcDir, String tarDir) {
         CorePlugin.instance.getGenerateManager().registerDirToDir(pluginName, pluginFile, dataFolder, srcDir, tarDir);
     }
+
+    /**
+     * 生成文件
+     * @param override 是否覆盖
+     */
+    public static void generate(String plugin, boolean override) {
+        CorePlugin.instance.getGenerateManager().generate(plugin, override);
+    }
 }
