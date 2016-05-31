@@ -15,6 +15,7 @@ public class LoadFancyMessageEvent extends Event{
     //相当于show-xxx内容
 	private String msg;
     //相当于info-xxx内容
+    //可能为null
 	private ConfigurationSection cs;
 
     //此结果可以被修改
