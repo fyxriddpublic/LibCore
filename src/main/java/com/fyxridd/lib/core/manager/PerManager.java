@@ -32,17 +32,10 @@ public class PerManager {
     }
 
     /**
-     * @see PerApi#isEnable()
-     */
-    public boolean isEnable() {
-        return per != null;
-    }
-
-    /**
      * @see PerApi#has(String, String)
      */
     public boolean has(String name, String per) {
-        return isEnable() && this.per.has(config.getPermissionDefaultWorld(), name, per);
+        return this.per.has(config.getPermissionDefaultWorld(), name, per);
     }
 
     /**

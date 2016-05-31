@@ -1,16 +1,8 @@
 package com.fyxridd.lib.core.api;
 
 import com.fyxridd.lib.core.CorePlugin;
-import org.bukkit.entity.Player;
 
 public class PerApi {
-    /**
-     * 权限是否有效
-     */
-    public static boolean isEnable() {
-        return CorePlugin.instance.getPerManager().isEnable();
-    }
-
     /**
      * 检测玩家是否有权限
      */

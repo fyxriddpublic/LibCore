@@ -3,6 +3,7 @@ package com.fyxridd.lib.core.realname;
 import com.fyxridd.lib.core.CorePlugin;
 import com.fyxridd.lib.core.api.MessageApi;
 import com.fyxridd.lib.core.api.event.FirstJoinEvent;
+import com.fyxridd.lib.core.api.exception.NotReadyException;
 import com.fyxridd.lib.core.api.fancymessage.FancyMessage;
 
 import org.bukkit.Bukkit;

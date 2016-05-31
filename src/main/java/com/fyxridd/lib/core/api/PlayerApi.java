@@ -7,7 +7,7 @@ import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.EnumWrappers;
 import com.fyxridd.lib.core.CorePlugin;
 import com.fyxridd.lib.core.api.fancymessage.FancyMessage;
-import com.fyxridd.lib.core.realname.NotReadyException;
+import com.fyxridd.lib.core.api.exception.NotReadyException;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;

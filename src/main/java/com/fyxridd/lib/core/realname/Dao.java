@@ -3,6 +3,7 @@ package com.fyxridd.lib.core.realname;
 import com.fyxridd.lib.core.CorePlugin;
 import com.fyxridd.lib.core.api.SqlApi;
 
+import com.fyxridd.lib.core.api.exception.NotReadyException;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.bukkit.Bukkit;
@@ -31,7 +32,7 @@ public class Dao {
     /**
      * @return 可能为null
      */
-    public RealName getRealName(String lowerName) throws NotReadyException{
+    public RealName getRealName(String lowerName) throws NotReadyException {
         //服务还没准备好
         if (!isReady()) throw new NotReadyException();
 

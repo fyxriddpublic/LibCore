@@ -4,13 +4,6 @@ import com.fyxridd.lib.core.CorePlugin;
 
 public class EcoApi {
     /**
-     * 经济是否有效
-     */
-    public static boolean isEnable() {
-        return CorePlugin.instance.getEcoManager().isEnable();
-    }
-
-    /**
      * 获取玩家的金钱
      */
     public static double get(String name) {
