@@ -61,7 +61,7 @@ public class LangGetterImpl implements LangGetter{
         if (result != null) MessageApi.convert(result, args);
 
         //返回
-        return result;
+        return result != null?result.clone():null;
     }
 
     /**
