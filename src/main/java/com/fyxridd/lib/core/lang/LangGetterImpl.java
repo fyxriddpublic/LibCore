@@ -57,11 +57,15 @@ public class LangGetterImpl implements LangGetter{
             if (map != null) result = map.get(id);
         }
 
-        //转换变量
-        if (result != null) MessageApi.convert(result, args);
+        if (result != null) {
+            //复制(防止影响原语言)
+            result = result.clone();
+            //转换变量
+            MessageApi.convert(result, args);
+        }
 
         //返回
-        return result != null?result.clone():null;
+        return result;
     }
 
     /**
