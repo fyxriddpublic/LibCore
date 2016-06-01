@@ -7,7 +7,6 @@ import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.EnumWrappers;
 import com.fyxridd.lib.core.CorePlugin;
 import com.fyxridd.lib.core.api.fancymessage.FancyMessage;
-import com.fyxridd.lib.core.api.exception.NotReadyException;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -96,11 +95,10 @@ public class PlayerApi {
     /**
      * 获取玩家的真名
      * @param sender 玩家不存在信息的接收者,可为null
-     * @param name 玩家名,不为null
+     * @param name 玩家名(大小写可以不准确),不为null
      * @return 真名,没有返回null
-     * @throws NotReadyException 表示服务还没准备好
      */
-    public static String getRealName(CommandSender sender, String name) throws NotReadyException {
+    public static String getRealName(CommandSender sender, String name) {
         return CorePlugin.instance.getRealNameManager().getRealName(sender, name);
     }
 

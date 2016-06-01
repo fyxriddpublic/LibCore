@@ -34,12 +34,14 @@ public class EnterBlockTypeManager {
         Bukkit.getPluginManager().registerEvent(PlayerQuitEvent.class, CorePlugin.instance, EventPriority.LOW, new EventExecutor() {
             @Override
             public void execute(Listener listener, Event e) throws EventException {
-                PlayerQuitEvent event = (PlayerQuitEvent) e;
-                //检测
-                check(event.getPlayer(), true);
-                //从缓存中删除
-                inTypeHash.remove(event.getPlayer());
-                onTypeHash.remove(event.getPlayer());
+                if (e instanceof PlayerQuitEvent) {
+                    PlayerQuitEvent event = (PlayerQuitEvent) e;
+                    //检测
+                    check(event.getPlayer(), true);
+                    //从缓存中删除
+                    inTypeHash.remove(event.getPlayer());
+                    onTypeHash.remove(event.getPlayer());
+                }
             }
         }, CorePlugin.instance);
         //计时器

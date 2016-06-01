@@ -37,10 +37,20 @@ public class LangApi {
 
     /**
      * 获取玩家使用的语言
+     * @param player 玩家名(大小写可以不准确)
      * @return null表示没有选择语言(即使用默认语言)
      */
     public static String getLang(String player) {
         return CorePlugin.instance.getPlayerManager().getLang(player);
+    }
+
+    /**
+     * 设置玩家使用的的语言
+     * @param player 玩家名(大小写可以不准确)
+     * @param lang 语言
+     */
+    public static void setLang(String player, String lang) {
+        CorePlugin.instance.getPlayerManager().setLang(player, lang);
     }
 
     /**

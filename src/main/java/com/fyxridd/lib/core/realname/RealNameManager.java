@@ -3,7 +3,6 @@ package com.fyxridd.lib.core.realname;
 import com.fyxridd.lib.core.CorePlugin;
 import com.fyxridd.lib.core.api.MessageApi;
 import com.fyxridd.lib.core.api.event.FirstJoinEvent;
-import com.fyxridd.lib.core.api.exception.NotReadyException;
 import com.fyxridd.lib.core.api.fancymessage.FancyMessage;
 
 import org.bukkit.Bukkit;
@@ -19,15 +18,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class RealNameManager {
-    private Dao dao;
+    private RealNameDao realNameDao;
 
     //不完整,动态读取
-	//玩家名(小写) 玩家真名
+	//玩家名(小写) 玩家真名(null值也可能存在)
 	private Map<String, RealName> realNames = new HashMap<>();
 
 	public RealNameManager() {
         //与数据库连接层
-        dao = new Dao();
+        realNameDao = new RealNameDao();
 
         //注册事件
         {
@@ -35,21 +34,18 @@ public class RealNameManager {
             Bukkit.getPluginManager().registerEvent(PlayerLoginEvent.class, CorePlugin.instance, EventPriority.NORMAL, new EventExecutor() {
                 @Override
                 public void execute(Listener listener, Event e) throws EventException {
-                    PlayerLoginEvent event = (PlayerLoginEvent) e;
-                    //已经禁止了
-                    if (!event.getResult().equals(Result.ALLOWED)) return;
-                    //限制启动
-                    if (CorePlugin.instance.getCoreConfig().isRealNameLimitEnable()) {
-                        //检测真名,禁止非法进入
-                        try {
+                    if (e instanceof PlayerLoginEvent) {
+                        PlayerLoginEvent event = (PlayerLoginEvent) e;
+                        //已经禁止了
+                        if (!event.getResult().equals(Result.ALLOWED)) return;
+                        //限制启动
+                        if (CorePlugin.instance.getCoreConfig().isRealNameLimitEnable()) {
+                            //检测真名,禁止非法进入
                             String realName = getRealName(null, event.getPlayer().getName());
                             if (realName != null && !realName.equals(event.getPlayer().getName())) {
                                 event.setResult(Result.KICK_OTHER);
                                 event.setKickMessage(get(event.getPlayer().getName(), 905, event.getPlayer().getName(), realName).getText());
                             }
-                        } catch (NotReadyException e1) {
-                            event.setResult(Result.KICK_OTHER);
-                            event.setKickMessage(get(event.getPlayer().getName(), 910).getText());
                         }
                     }
                 }
@@ -59,7 +55,7 @@ public class RealNameManager {
             Bukkit.getPluginManager().registerEvent(PlayerJoinEvent.class, CorePlugin.instance, EventPriority.LOWEST, new EventExecutor() {
                 @Override
                 public void execute(Listener listener, Event e) throws EventException {
-                    try {
+                    if (e instanceof PlayerJoinEvent) {
                         PlayerJoinEvent event = (PlayerJoinEvent) e;
                         //获取用户信息
                         RealName user = get(event.getPlayer().getName());
@@ -71,12 +67,10 @@ public class RealNameManager {
                             //缓存
                             realNames.put(event.getPlayer().getName().toLowerCase(), user);
                             //db
-                            dao.insert(user);
+                            realNameDao.insert(user);
                             //发出第一次进服事件
                             Bukkit.getPluginManager().callEvent(new FirstJoinEvent(event.getPlayer()));
                         }
-                    } catch (NotReadyException e1) {//不应该发生
-                        e1.printStackTrace();
                     }
                 }
             }, CorePlugin.instance);
@@ -86,7 +80,7 @@ public class RealNameManager {
     /**
      * @see com.fyxridd.lib.core.api.PlayerApi#getRealName(CommandSender, String)
      */
-    public String getRealName(CommandSender sender, String name) throws NotReadyException{
+    public String getRealName(CommandSender sender, String name) {
         //获取信息
         RealName user = get(name);
 
@@ -105,18 +99,18 @@ public class RealNameManager {
 
     /**
      * 获取玩家信息
-     * @param name 玩家名,不为null
+     * @param name 玩家名(大小写可以不准确),不为null
      * @return 信息,不存在返回null
      */
-    private RealName get(String name) throws NotReadyException{
+    private RealName get(String name) {
         //先从缓存中读取
-        RealName result = realNames.get(name.toLowerCase());
-        if (result != null) return result;
+        String lowerName = name.toLowerCase();
+        if (realNames.containsKey(lowerName)) return realNames.get(lowerName);
 
         //再从数据库中读取
-        result = dao.getRealName(name);
+        RealName result = realNameDao.getRealName(lowerName);
         //保存缓存
-        if (result != null) realNames.put(name.toLowerCase(), result);
+        realNames.put(lowerName, result);
 
         return result;
     }

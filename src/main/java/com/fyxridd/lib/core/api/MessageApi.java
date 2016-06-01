@@ -8,6 +8,7 @@ import com.fyxridd.lib.core.api.event.PlayerTipEvent;
 import com.fyxridd.lib.core.api.fancymessage.Convertable;
 import com.fyxridd.lib.core.api.fancymessage.FancyMessage;
 import com.fyxridd.lib.core.api.fancymessage.FancyMessagePart;
+import com.fyxridd.lib.core.api.ver.vers.GetHoverActionDataVer;
 import com.fyxridd.lib.core.fancymessage.FancyMessageImpl;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -24,6 +25,10 @@ import java.util.List;
 import java.util.Map;
 
 public class MessageApi {
+    //false表示未获取过
+    private static boolean getHoverActionDataVerFlag;
+    private static GetHoverActionDataVer getHoverActionDataVer;
+
     /**
      * 发送信息
      * @param force 是否强制显示
@@ -164,10 +169,15 @@ public class MessageApi {
     /**
      * 根据物品获取悬浮提示信息(mc能识别处理的)
      * @param is 物品,不为null
-     * @return 提示信息
+     * @return 提示信息,异常返回null
      */
     public static String getHoverActionData(ItemStack is) {//todo
-        return null;
+        if (!getHoverActionDataVerFlag) {
+            getHoverActionDataVerFlag = true;
+            getHoverActionDataVer = VerApi.get(GetHoverActionDataVer.class);
+        }
+        if (getHoverActionDataVer != null) return getHoverActionDataVer.getHoverActionData(is);
+        else return null;
 //        return CraftItemStack.asNMSCopy(is).save(new NBTTagCompound()).toString();
     }
 
@@ -203,9 +213,8 @@ public class MessageApi {
         onHover(mp, "show_item", itemJSON, hoverActionString);
     }
 
-    public static void itemTooltip(FancyMessagePart mp, final ItemStack itemStack, final String hoverActionString) {//todo
-        return;
-//        itemTooltip(mp, CraftItemStack.asNMSCopy(itemStack).save(new NBTTagCompound()).toString(), hoverActionString);
+    public static void itemTooltip(FancyMessagePart mp, final ItemStack itemStack, final String hoverActionString) {
+        itemTooltip(mp, getHoverActionData(itemStack), hoverActionString);
     }
 
     /**

@@ -86,8 +86,10 @@ public class ConfigManager {
         //监听重载配置文件事件
         Bukkit.getPluginManager().registerEvent(ReloadConfigEvent.class, CorePlugin.instance, EventPriority.HIGHEST, new EventExecutor() {
             @Override
-            public void execute(Listener listener, Event event) throws EventException {
-                reload(((ReloadConfigEvent)event).getPlugin());
+            public void execute(Listener listener, Event e) throws EventException {
+                if (e instanceof ReloadConfigEvent) {
+                    reload(((ReloadConfigEvent)e).getPlugin());
+                }
             }
         }, CorePlugin.instance);
     }

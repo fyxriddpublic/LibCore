@@ -45,6 +45,7 @@ public class CorePlugin extends SimplePlugin{
     private TimeManager timeManager;
     private PerManager perManager;
     private EcoManager ecoManager;
+    private VerManager verManager;
 
     @Override
     public void onLoad() {
@@ -89,6 +90,7 @@ public class CorePlugin extends SimplePlugin{
         timeManager = new TimeManager();
         perManager = new PerManager();
         ecoManager = new EcoManager();
+        verManager = new VerManager();
 
         super.onEnable();
     }
@@ -187,6 +189,10 @@ public class CorePlugin extends SimplePlugin{
 
     public LogManager getLogManager() {
         return logManager;
+    }
+
+    public VerManager getVerManager() {
+        return verManager;
     }
 
     private static FancyMessage get(String player, int id, Object... args) {

@@ -9,6 +9,7 @@ import com.comphenix.protocol.wrappers.WrappedBlockData;
 import com.fyxridd.lib.core.CorePlugin;
 import com.fyxridd.lib.core.Tps;
 import com.fyxridd.lib.core.api.fancymessage.FancyMessage;
+import com.fyxridd.lib.core.api.ver.vers.StrikeLightingVer;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -37,6 +38,10 @@ public class CoreApi {
     public static String serverVer;
 
     private static final String VERSION_PATTERN = "\\(MC: [0-9.]{5}\\)";
+
+    //false表示未获取过
+    private static boolean strikeLightingVerFlag;
+    private static StrikeLightingVer strikeLightingVer;
 
     /**
      * 在指定的位置播放一下声音(升级时的音效)
@@ -295,6 +300,11 @@ public class CoreApi {
      * @param silent 是否安静(无声音)
      */
     public static void strikeLightning(Location loc, int range, boolean effect, boolean silent) {//todo
+        if (!strikeLightingVerFlag) {
+            strikeLightingVerFlag = true;
+            strikeLightingVer = VerApi.get(StrikeLightingVer.class);
+        }
+        if (strikeLightingVer != null) strikeLightingVer.strikeLightning(loc, range, effect, silent);
 //        CraftWorld cw = (CraftWorld)loc.getWorld();
 //        net.minecraft.server.v1_8_R3.World w = cw.getHandle();
 //        EntityLightning lightning = new EntityLightning(w, loc.getX(), loc.getY(), loc.getZ(), !effect);
