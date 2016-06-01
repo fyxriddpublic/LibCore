@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.fyxridd.lib.core.realname.RealNameMapper">
+<mapper namespace="com.fyxridd.lib.core.lang.LangUserMapper">
     <select id="exist" resultType="java.lang.Boolean">
         select count(*) from lang_user where `name`=#{name};
     </select>
